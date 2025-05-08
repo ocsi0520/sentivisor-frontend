@@ -1,0 +1,11 @@
+{
+  "extends": "../shared/tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "../../ts-build-infos/worker.tsbuildinfo",
+    "lib": ["ES2020", "WebWorker"],
+    "types": ["chrome"],
+    "paths": {
+      "#shared/*": ["../shared/*"]
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "extends": "../shared/tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "../../ts-build-infos/side-panel.tsbuildinfo",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"]
+  }
+}

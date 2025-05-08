@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+<file target-language="hu" source-language="en" original="lit-localize-inputs" datatype="plaintext">
+<body>
+<trans-unit id="s5b6b9719d814643d">
+  <source>Joy</source>
+  <target>Öröm</target>
+</trans-unit>
+<trans-unit id="s3a9e05852a30c967">
+  <source>Fear</source>
+  <target>Félelem</target>
+</trans-unit>
+<trans-unit id="s71f8cb26262d99ba">
+  <source>Surprise</source>
+  <target>Meglepődés</target>
+</trans-unit>
+<trans-unit id="s5c624d4d9a6d7278">
+  <source>Sadness</source>
+  <target>Szomorúság</target>
+</trans-unit>
+<trans-unit id="s435dbe9a8b308000">
+  <source>Disgust</source>
+  <target>Undor</target>
+</trans-unit>
+<trans-unit id="s5b9494d85a54e6f0">
+  <source>Anger</source>
+  <target>Düh</target>
+</trans-unit>
+<trans-unit id="s1a249b1921e2bdea">
+  <source>off</source>
+  <target>ki</target>
+</trans-unit>
+<trans-unit id="scca1a5e598127a88">
+  <source>inform</source>
+  <target>jelez</target>
+</trans-unit>
+<trans-unit id="s129fac0ae1df7c8f">
+  <source>warning</source>
+  <target>figyelmeztet</target>
+</trans-unit>
+<trans-unit id="s7055edd8fab866f4">
+  <source>strict</source>
+  <target>blokkol</target>
+</trans-unit>
+<trans-unit id="s57b5dbdcfaea6131">
+  <source>collect</source>
+  <target>gyűjt</target>
+</trans-unit>
+<trans-unit id="s9b3fd5b69e3ecea3">
+  <source>Please add consent so we can grant you the functionalities.</source>
+  <target>Fogadd el a felhasználói feltételeket, hogy használhasd az alkalmazást!</target>
+</trans-unit>
+<trans-unit id="s9dc80e28862b8d7a">
+  <source>Open consent page</source>
+  <target>Felhasználói feltételek oldal megnyitása</target>
+</trans-unit>
+<trans-unit id="s5d929ff1619ac0c9">
+  <source>Search</source>
+  <target>Keresés</target>
+</trans-unit>
+<trans-unit id="s02e9623e8f63d7ef">
+  <source>Add current domain</source>
+  <target>Jelenlegi oldal hozzáadása</target>
+</trans-unit>
+<trans-unit id="sbe9f67546416f1d0">
+  <source>Ignored Domains</source>
+</trans-unit>
+</body>
+</file>
+</xliff>

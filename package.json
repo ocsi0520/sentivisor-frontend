@@ -1,0 +1,28 @@
+{
+  "name": "chrome-extension",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@lit/localize-tools": "^0.8.0",
+    "@types/chart.js": "^2.9.41",
+    "@types/chrome": "^0.0.287",
+    "typescript": "~5.6.2",
+    "vite": "^6.0.3",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "^1.6.13",
+    "@lit/localize": "^0.12.2",
+    "chart.js": "^4.4.7",
+    "franc": "^6.2.0",
+    "lit": "^3.2.1",
+    "reflect-metadata": "^0.2.2",
+    "tsyringe": "^4.8.0"
+  }
+}

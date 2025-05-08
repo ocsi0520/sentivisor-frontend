@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consent for Your Well-Being</title>
+    <link rel="stylesheet" href="./consent.css" />
+  </head>
+
+  <body>
+    <div class="consent-wrapper">
+      <div class="container" id="consent-container">
+        <!-- Icon and name -->
+        <div class="icon-container">
+          <img src="/public/images/icon-128.png" alt="Sentivisor Icon" class="icon" />
+          <span class="name">Sentivisor</span>
+        </div>
+
+        <h1>We Respect Your Privacy</h1>
+
+        <!-- Highlighted consent information -->
+        <p class="important">
+          To make your browsing experience safer and more supportive, we need your
+          permission to access the text content on the webpages you visit.
+        </p>
+
+        <p><strong>Why do we need your permission?</strong></p>
+        <p>
+          Our extension helps protect your mental well-being by analyzing the text
+          content of the pages you visit. This allows us to identify potentially
+          harmful content that might affect your mental health and send you
+          helpful notifications. We do not collect any personal data, only the
+          text content is analyzed.
+        </p>
+
+        <!-- Consent buttons -->
+        <button class="accept" id="accept">Yes, I Agree</button>
+        <button class="decline" id="decline">No, Thanks</button>
+      </div>
+
+      <!-- Thank You Section -->
+      <div class="container" id="thank-you-container" style="display: none">
+        <p class="thank-you">Thank you for your consent!</p>
+        <button class="continue-btn" id="continue">Continue Browsing</button>
+      </div>
+    </div>
+    <script type="module" src="privacyConsent.ts"></script>
+  </body>
+
+</html>

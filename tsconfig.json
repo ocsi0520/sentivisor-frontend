@@ -1,0 +1,10 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./src/shared" },
+    { "path": "./src/SidePanel" },
+    { "path": "./src/worker" },
+    { "path": "./src/content" },
+    { "path": "./src/consent" }
+  ]
+}

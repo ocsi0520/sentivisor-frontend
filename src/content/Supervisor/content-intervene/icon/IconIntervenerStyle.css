@@ -1,0 +1,31 @@
+.intervene-wrapper {
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 2147483647;
+  display: flex;
+  pointer-events: none;
+}
+
+.emotion-icon-wrapper {
+  pointer-events: all;
+  background: rgba(255, 255, 255, 0.6);
+  font-family: "Pacifico", cursive;
+  color: #333333;
+  padding: 20px;
+  border-radius: 10px;
+  position: absolute;
+  display: inline-block;
+  cursor: move;
+  top: 40vh;
+  left: 90vw;
+}
+
+.emotion-icon-wrapper>img {
+  width: 45px;
+  height: 45px;
+}
