@@ -1,5 +1,5 @@
 {
-  "name": "chrome-extension",
+  "name": "sentivisor-frontend-web-extension",
   "private": true,
   "version": "0.0.0",
   "type": "module",
