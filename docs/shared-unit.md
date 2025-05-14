@@ -2,8 +2,6 @@
 As its name suggests, these are the files that are shared between the different units.
 It's important to mention that these files **are built into each application unit**.
 
-
-
 ## Storages
 
 Storage services are stateless clients to a common storage API.
@@ -39,9 +37,9 @@ SupervisionMode is the property that sets what is the current behaviour.
   - skip the content - The user is navigated away from the website (currently to google.com)
 - strict - It's the same as warning, except that it does not have a "read this" option
 
-## messages among application parts
+## Messages among application parts
 
-Messages are sent across application units. For this we need structured messages and a mechanism which can send and recieve these structured messages.
+Messages are sent across application units. For this we need structured messages and a mechanism which can send and receive these structured messages.
 
 ### An example of message-chain
 
@@ -58,7 +56,7 @@ worker evaluates it by sending the parsed website to the backend, then it [broad
 worker --[evaluation]--> content \
 worker --[evaluation]--> sidepanel
 
-### structured messages
+### Structured messages
 
 In [messages.ts](../src/shared/messages.ts) you can find all the messages which are sent across the application.
 
@@ -87,13 +85,20 @@ An example is `DisplayEvent`. We want to display an evaluation but we don't care
 
 ### MessageMediator
 
-TODO: finish
+The [`MessageMediator`](../src/shared/MessageMediator.ts) is the class that centralizes communication between different parts of the application. It implements a basic pub-sub pattern based on `chrome.runtime.sendMessage`, `chrome.tabs.sendMessage` and `chrome.runtime.onMessage`.
 
-## themes shared across ui units
+#### Key points
+1. **Automatic wrapping/unwrapping**: You don't have to worry about de-/serializing the message. `MessageMediator` makes a JSON string out of the message and sends it to the other side, then unpacks it.
+1. **Type safety**: `listen` and `send` methods are built on the `MessageMap` type, so you can be sure that the message and response types are correct.
+1. **Unsubscribe mechanism**: When you listen to an event, you get back an `Unsubscribe` function. This function can be called to stop listening for the event, preventing memory leaks.
+1. **Tab-specific and tab-less messaging**: In case you'd like to send a message to a specific tab (to the content script), you can provide a `tabId`. Otherwise the message will be sent to "tab-less" listeners (like the worker or sidepanel). \
+**Important**: if you send a message from a unit (i.e. worker), then it won't get the message from itself.
+
+## Themes shared across ui units
 
 *theme-colors.ts* - This should be moved to ui-related, anyway this holds css values for all themes. A theme can be loaded by setting all values of a nested object of `themes` onto a root element. Check example in [stv-root.ts](../src/SidePanel/stv-root.ts?plane1#L80).
 
-## miscellaneous
+## Miscellaneous
 
 There are utilities which are / can be used across the whole application. I.e. *debounce.ts*, *utils.ts*
 
