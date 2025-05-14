@@ -1,8 +1,7 @@
 import { css, html, LitElement, TemplateResult } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { unsafeSVG } from "lit/directives/unsafe-svg.js";
-import moonIcon from "#assets/images/moon-icon.svg?raw";
-import sunIcon from "#assets/images/sun-icon.svg?raw";
+import moonIcon from "#assets/images/moon-icon.svg?url&no-inline";
+import sunIcon from "#assets/images/sun-icon.svg?url&no-inline";
 import { commonStyle } from "../shared-styles/common.style";
 import { Theme } from "#shared/theme-colors";
 import { allLocales } from "../localization/generated/config";
@@ -19,10 +18,19 @@ export class StvToolbar extends LitElement {
         padding: 6px 0 3px 14px;
       }
 
-      .toolbar svg {
+      .toolbar svg,
+      .toolbar img,
+      .toolbar .hard-try {
         width: 1.4em;
         height: 1.4em;
         color: var(--text-color);
+        border: 1px solid red;
+      }
+      .toolbar .hard-try {
+        background-image: var(--toolbar-icon-url);
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: 1px solid blue;
       }
     `,
   ];
@@ -31,7 +39,9 @@ export class StvToolbar extends LitElement {
   public theme!: Theme;
 
   private get themeIcon(): string {
-    return this.theme === "dark" ? sunIcon : moonIcon;
+    return this.theme === "dark"
+      ? `${sunIcon}#entire-sun-icon`
+      : `${moonIcon}#entire-moon-icon`;
   }
 
   private dispatchToggleTheme(): void {
@@ -48,7 +58,11 @@ export class StvToolbar extends LitElement {
       <div class="toolbar-wrapper shadow-sm">
         <div class="toolbar">
           <button @click=${this.dispatchToggleTheme} class="btn-icon">
-            ${unsafeSVG(this.themeIcon)}
+            <svg>
+              <use href=${this.themeIcon}></use>
+            </svg>
+            <img src=${this.themeIcon} />
+            <div class="hard-try"></div>
           </button>
           ${this.renderLanguageSelector()}
         </div>
