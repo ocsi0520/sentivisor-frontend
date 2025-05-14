@@ -58,7 +58,6 @@ Here we make the default icon open the side panel.
 
 To make the same behavior in firefox we need to do this:
 ```typescript
-declare const browser: any;
 const isChrome = !!chrome.sidePanel;
 if (isChrome) {
   chrome.sidePanel

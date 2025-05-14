@@ -1,7 +1,7 @@
 # Build and use chrome extension
 
 It must be mentioned that this extension is only compatible with chromium-based browsers.
-To see an elaboration on this topic, check out [browser-compatibility doc](./browser-compatibility/browser-compatibility.md).
+To see an elaboration on this topic, check out [browser-compatibility doc](../browser-compatibility/browser-compatibility.md).
 
 In order to try out this extension, first we need to understand how the app is assembled.
 
