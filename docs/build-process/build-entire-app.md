@@ -18,7 +18,7 @@ To generate the missing files:
 
 In case you'd like to add/modify/remove localized texts, then (still in src/SidePanel):
 1. Write in the terminal: `npx lit-localize extract`.
-1. *hu.xlf* file is (re-)generated, there you can edit it by adding <target>translated text</target> for each record. In order to add more languages modify the targetLocales in [lit-localize.json](../src/SidePanel/lit-localize.json?plane1#4), then re-run the command and see *other-language.xlf* files.
+1. *hu.xlf* file is (re-)generated, there you can edit it by adding <target>translated text</target> for each record. In order to add more languages modify the targetLocales in [lit-localize.json](../../src/SidePanel/lit-localize.json?plane1#4), then re-run the command and see *other-language.xlf* files.
 1. After you are done write in the terminal `npx lit-localize build`.
 1. You are done :)
 
@@ -28,18 +28,18 @@ For more information:
 
 ## tsconfig files
 
-As mentioned in the [main readme](../README.md) there are separated typescript projects.
+As mentioned in the [main readme](../../README.md) there are separated typescript projects.
 The first reason is that these parts are executed separately.
 The second reason is that these parts are executed in different contexts. \
 I.e.
-- Worker is a background script, so it has nothing to do with DOM. So in its [tsconfig](../src/worker/tsconfig.json?plane1#5) you won't find the *DOM* lib.
-- Meanwhile the [tsconfig of consent](../src/consent/tsconfig.json?plane1#5) has it
+- Worker is a background script, so it has nothing to do with DOM. So in its [tsconfig](../../src/worker/tsconfig.json?plane1#5) you won't find the *DOM* lib.
+- Meanwhile the [tsconfig of consent](../../src/consent/tsconfig.json?plane1#5) has it
 
-As all tsconfig extends the [shared tsconfig](../src/shared/tsconfig.json) (except of course itself), you can see that for each part we used bundler mode.
+As all tsconfig extends the [shared tsconfig](../../src/shared/tsconfig.json) (except of course itself), you can see that for each part we used bundler mode.
 
 ## Vite bundler
 
-The used bundler is [vite](https://vite.dev/) and its config is [vite.config.ts](../vite.config.ts)
+The used bundler is [vite](https://vite.dev/) and its config is [vite.config.ts](../../vite.config.ts)
 As the parts are standalone units, hence we needed to specify [entry points](https://rollupjs.org/configuration-options/#input) for each of them.
 
 We decided to not minify the built code so it is [easier to review](https://developer.chrome.com/docs/webstore/review-process/#review-time-factors).
@@ -48,10 +48,10 @@ We decided to not minify the built code so it is [easier to review](https://deve
 
 A bundler is rarely responsible for typechecking (of course there are [plugins](https://www.npmjs.com/package/vite-plugin-checker) for them), therefore we first need to do the type-checking separately.
 
-As in the shared config the [`noEmit`](../src/shared/tsconfig.json#19) is set to true, the `tsc` command does exactly the type-checking and only the checking.
+As in the shared config the [`noEmit`](../../src/shared/tsconfig.json#19) is set to true, the `tsc` command does exactly the type-checking and only the checking.
 Since we are using multiple projects we need to use the [`--build` flag](https://www.typescriptlang.org/docs/handbook/project-references.html#build-mode-for-typescript)
 
-But for ease of use you can just execute [`npm run build`](../package.json?plane1#8).
+But for ease of use you can just execute [`npm run build`](../../package.json?plane1#8).
 
 ## Load extension into chromium-based browser
 
