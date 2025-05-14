@@ -53,7 +53,7 @@ The manifest keys are named respectively, but that's the least problem.
 },
 ```
 
-The [only direct usage](../src/worker/worker.ts?plane1#75) of SidePanel API is in *worker.ts*.
+The [only direct usage](../../src/worker/worker.ts?plane1#75) of SidePanel API is in *worker.ts*.
 Here we make the default icon open the side panel.
 
 To make the same behavior in firefox we need to do this:
