@@ -27,7 +27,7 @@ Let's say we have a very harmful website, there are different ways to tackle thi
 
 #### SupervisionMode
 
-SupervisionMode is the property that sets what is the current behaviour.
+SupervisionMode is the property that sets what is the current content-based-behaviour.
 - off - It's basically says that we don't collect any data, therefore we don't analyze the website. Good for pausing the extension temporarily. (This is the only mode where we don't collect the data.)
 - collect - We collect the data but we don't do any client-side action, meaning we can create a summary of the visited websites but that does not affect the browsing experience in any way.
 - inform - Here we simply show an indication (right now just an emoji) what is the result of the evaluation of the current website.
