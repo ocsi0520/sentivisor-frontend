@@ -106,3 +106,12 @@ With the [SupervisionMode](./shared-unit.md#supervisionmode) the user can select
   - It can block the website with a modal without the possibility to dismiss the modal
 
 The injected DOM from the InterveneSupervisor is encapsulated in [shadow DOM](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), so it does not affect the website's original content.
+
+## Tech stack
+
+An interesting question is why we didn't use dependency injection or lit here, while we have them in [side-panel](./side-panel-unit.md). \
+There are two reasons:
+1. For each tab the *content.js* is injected which means we might end up with a huge memory footprint
+1. Since we are dealing with the content, therefore this part can immensely increase the loading time of a page if we don't pay enough attention to it.
+
+Taking these into consideration, we decided to keep this as lightweight as possible.
