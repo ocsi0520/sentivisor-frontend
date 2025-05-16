@@ -8,13 +8,13 @@ Content unit is the part that
 
 First of all we used a very naive approach for the first iteration, namely we considered all websites as [immutable and static](./worker-unit.md#the-naive-approach-for-analyzing-websites).
 
-The implementation of extraction reflected this approach: `document.body.innerText`.
+The implementation of extraction reflected this approach: `document.body.innerText`. \
 Why did we choose innerText and not textContent?
 For that [read this first](https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent#differences_from_innertext).
 
 To put it in a nutshell, we wanted to extract only those texts which are visible for the user:
 - in the viewport
-- not hidden by CSS, JS or html attribute
+- not hidden by css, js or html attribute
 
 ### Guard-clauses for extraction
 
@@ -24,6 +24,65 @@ Before we even try to extract anything from the website, we need to check [wheth
 - Is the [supervision mode off](./shared-unit.md#supervisionmode)?
 - Is the language that the website uses [supported by the extension](./shared-unit.md#miscellaneous)?
 
+### Advanced extraction
+
+In case we want to give a pretty good estimation on the mental health impact of a website, we should analyze only the content that is visible for the user.
+(The user still might skip parts, although seeing things from peripheral vision can also have an impact.)
+
+That means we should extract that part (as mentioned above):
+- which is in the viewport
+- which is not hidden by css, js or html attribute
+
+However we should handle any changes in the viewport:
+- user scrolled
+- the content changed without action (i.e. content arrived after an initial loading)
+- popup/tooltip opened
+- due to resize of the window the viewport increased
+
+I believe the only way to achieve such functionality is to use [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) and/or [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
+
+
+### Security concerns
+
+Even though I believe the idea behind Sentivisor is wonderful, it brings serious security concerns.
+As we are reading the content of the website, we have to be sure that we are not reading any sensitive data.
+
+The user can visit websites such as
+- banking websites
+- social media websites (with private messages)
+- websites which hold health data
+
+Backend **does not retain any data** from the content.
+However as backend does not trust frontend, neither frontend should trust backend.
+
+Moreover the less we know, the smaller the chance is for a security breach.
+![Ignorance is our ammunition](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fy.yarn.co%2Fd9178979-bed6-4035-8f6c-8de0c2446706_text.gif&f=1&nofb=1&ipt=445a663df8ad6feb83dffeec67a536220036e4678d9a233a7d9e374b661fb5ac)
+
+**Currently no security layer is implemented in the extension.** \
+We did not reach the point where we could implement it.
+
+#### Mitigating security concerns
+
+It's also a non-trivial task to decide whether a website might contain sensitive data.
+(Not even talking about that within a site we distinguish between sensitive and non-sensitive data.)
+
+##### Specify sites to access
+
+The first thing that you can do to try out the extension without taking any risk is to allow the extension to run only on specific websites.
+You can do that in the extension settings in your browser.
+![Specific sites access](./specific-sites-access.png)
+
+##### Implement Whitelist
+
+The very same approach but inside the extension is to implement a whitelist.
+This was my initial proposal instead of blacklist, but it was voted down by the team.
+
+Anyway most of the time users go back to the same websites, meaning they know which are the sites that they care about the most from mental health perspective:
+- social media
+- news
+
+If you just try to buy a gift for your friend, or go to a fastfood restaurant's website, or look for a recipe (meaning you try to find information on sites which you don't know yet), you'll see pretty much neutral content.
+
 ## Action based on the evaluation
 
 The action consists of two steps.
@@ -31,7 +90,7 @@ First we need to consider whether the website is harmful or not. If it is, then 
 
 ### Consultant
 
-A [consultant](../src/content/Consultant/Consultant.ts) is responsible for deciding whether the website is harmful or not based on the evaluation of the website.
+A [consultant](../src/content/Consultant/Consultant.ts) is responsible for deciding whether the website is harmful or not based on the evaluation we got from backend.
 
 The consultant later on can be affected by the user's preferences, but currently we only have a [DefaultConsultant](../src/content/Consultant/DefaultConsultant.ts).
 
