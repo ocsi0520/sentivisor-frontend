@@ -1,0 +1,11 @@
+TODO:
+- localization
+- dependency injection (why we don't have that at another place)
+- shared within side-panel
+- goal: show summary
+- menus for settings
+  - supervision mode
+  - blacklist
+- score-display
+  - chart-drawer
+- themes
