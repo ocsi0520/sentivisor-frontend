@@ -41,6 +41,7 @@ However we should handle any changes in the viewport:
 
 I believe the only way to achieve such functionality is to use [IntersectionObserver](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) and/or [MutationObserver](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver).
 
+We already did some experiments with the aforementioned APIs, but we neither had the time nor the proper approach to implement it in a way that does not affect significantly the performance of the website.
 
 ### Security concerns
 
@@ -53,9 +54,9 @@ The user can visit websites such as
 - websites which hold health data
 
 Backend **does not retain any data** from the content.
-However as backend does not trust frontend, neither frontend should trust backend.
+However as backend does not trust frontend, neither frontend should trust backend or at least the network.
 
-Moreover the less we know, the smaller the chance is for a security breach.
+Moreover the less we know, the smaller the chance is for a security breach. \
 ![Ignorance is our ammunition](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fy.yarn.co%2Fd9178979-bed6-4035-8f6c-8de0c2446706_text.gif&f=1&nofb=1&ipt=445a663df8ad6feb83dffeec67a536220036e4678d9a233a7d9e374b661fb5ac)
 
 **Currently no security layer is implemented in the extension.** \
@@ -82,6 +83,11 @@ Anyway most of the time users go back to the same websites, meaning they know wh
 - news
 
 If you just try to buy a gift for your friend, or go to a fastfood restaurant's website, or look for a recipe (meaning you try to find information on sites which you don't know yet), you'll see pretty much neutral content.
+
+##### Making it open-source
+
+A strange point, but in case we make it open-source, we can involve the community to help us with the security concerns.
+Moreover the user (in case he/she is a technical person) can check the code and see whether it is safe to use or not.
 
 ## Action based on the evaluation
 
