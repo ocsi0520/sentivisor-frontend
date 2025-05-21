@@ -117,7 +117,10 @@ The injected DOM from the InterveneSupervisor is encapsulated in [shadow DOM](ht
 
 An interesting question is why we didn't use dependency injection or lit here, while we have them in [side-panel](./side-panel-unit.md). \
 There are two reasons:
-1. For each tab the *content.js* is injected which means we might end up with a huge memory footprint
-1. Since we are dealing with the content, therefore this part can immensely increase the loading time of a page if we don't pay enough attention to it.
+1. For each tab the *content.js* is injected which means we might end up with a huge memory footprint.
+1. Since we are dealing with the content, therefore this part can immensely increase the loading time of a page if we don't pay enough attention to it. The import of a package itself already lengthens the loading time, not alone the usage of it.
+1. We don't know whether the site uses one or more of our packages which would lead to conflicts.
 
 Taking these into consideration, we decided to keep this as lightweight as possible.
+That means currently there is only one package that we use: _franc_ [to check the language of the website](../src/content/contentUtils.ts?plane1#L13). \
+It might make sense to move this functionality to the worker, and use [MessageMediator](./shared-unit.md#messagemediator) to fetch this piece of information.
