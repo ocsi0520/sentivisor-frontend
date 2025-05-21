@@ -91,7 +91,8 @@ The [`MessageMediator`](../src/shared/MessageMediator.ts) is the class that cent
 1. **Type safety**: `listen` and `send` methods are built on the `MessageMap` type, so you can be sure that the message and response types are correct.
 1. **Unsubscribe mechanism**: When you listen to an event, you get back an `Unsubscribe` function. This function can be called to stop listening for the event, preventing memory leaks.
 1. **Tab-specific and tab-less messaging**: In case you'd like to send a message to a specific tab (to the content script), you can provide a `tabId`. Otherwise the message will be sent to "tab-less" listeners (like the worker or sidepanel). \
-**Important**: if you send a message from a unit (i.e. worker), then it won't get the message from itself.
+**Important**: if you send a message from a unit (i.e. worker), then [it won't get the message from itself](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/sendMessage#:~:text=in%20your%20extension%2C-,except%20for%20the%20frame%20that%20called%20runtime.sendMessage,-.).
+1. **Possibility to use as Promise**: In case you'd like to use this message mechanism for only a *one-query-one-response* message-chain, then you can type-safely use MessageMediator. (This is built upon the usage of `sendMessage` without *callback* parameter. Check [runtime.sendMessage](https://developer.chrome.com/docs/extensions/reference/api/runtime#method-sendMessage) and [tabs.sendMessage](https://developer.chrome.com/docs/extensions/reference/api/tabs#method-sendMessage) docs for chrome.)
 
 ## Themes shared across ui units
 
