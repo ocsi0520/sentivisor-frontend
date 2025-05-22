@@ -49,14 +49,21 @@ Worth to note that the chart must be explicitly updated every time:
 - the [theme changes](../src/SidePanel/side-panel/score-display/stv-score-display.ts?plane1#L67)
 - the [locale changes](../src/SidePanel/side-panel/score-display/stv-score-display.ts?plane1#L77)
 
-TODO:
-- score-display
-  - chart-drawer
-
 ### Localization
 
-TODO
+TODOs:
+- localization at multiple places (also outside of the sidepanel)
+  - custom naive implementation, instead of using [built-in i18n](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization)
+- link to build guide
+- https://lit.dev/docs/localization/overview/
+  - runtime mode, as the user can switch between locales
+
 
 ## Shared components across side panel
 
-TODO
+There is another folder called `shared` in the side panel folder. \
+This is the folder of those components which are reused in multiple places only in the side panel unit.
+Such components are:
+- loading-indicator
+- search-field (an input field which emits a [search event](../src/SidePanel/shared/search-event.ts))
+- prompter (which is an overlay component, intended to add extra information to the user when hovered on or clicked)
