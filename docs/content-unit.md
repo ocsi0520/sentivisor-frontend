@@ -124,3 +124,21 @@ There are two reasons:
 Taking these into consideration, we decided to keep this as lightweight as possible.
 That means currently there is only one package that we use: _franc_ [to check the language of the website](../src/content/contentUtils.ts?plane1#L13). \
 It might make sense to move this functionality to the worker, and use [MessageMediator](./shared-unit.md#messagemediator) to fetch this piece of information.
+
+## Run as ES module
+
+There is a tiny but crucial problem with the content script. As its name implies it's a script not a module, consequently it does not allow to use import/export syntax.
+
+Mixing ES modules with CommonJS is always a pain in the neck. Moreover the rest of the units can be treated as modules.
+It's time-consuming and cumbersome to configure vite to treat only *content.js* entrypoint as CJS and leave the rest of them as modules.
+
+Luckily there is a workaround for this problem based [on this note](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts#:~:text=about%3Aaddons%29.-,Note%3A%20Dynamic%20JS%20module%20imports%20are%20now%20working%20in%20content%20scripts.,-For%20more%20details).
+
+Instead of directly referencing the *content.js* from *manifest.json* we create a new script, called [*content-module-entry.js*](../public/assets/content-module-entry.js) which consists of an [IIFE](https://developer.mozilla.org/en-US/docs/Glossary/IIFE) (immediately invoked function expression).
+Inside the IIFE we use the dynamic import to load the *content.js*.
+Inside the *manifest.json* we reference the *content-module-entry.js* instead of *content.js* and voila, we load the *content.js* in a module context.
+
+To be honest I wasn't that clever, I got the idea from [stackoverflow](https://stackoverflow.com/a/53033388).
+
+**Note** that all of the files which are either directly or indirectly imported from *content.js* must be listed in *manifest.json*'s `web_accessible_resources.resources` property.
+For convenience we listed them with a single `"assets/*"` string, but if we had had a release we would have listed them one by one.
