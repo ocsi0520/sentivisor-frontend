@@ -4,7 +4,7 @@ Currently this extension only works in chromium-based browsers. It wasn't in the
 
 ## Make it cross-browser
 
-Since we didn't use any advanced thing, there are two things that need to be done to make it [cross-browser](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Build_a_cross_browser_extension).
+Since we didn't use any advanced things, there are two things that need to be done to make it [cross-browser](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Build_a_cross_browser_extension).
 (Except for Safari, mentioned that later.)
 
 ### browser variable

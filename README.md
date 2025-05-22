@@ -15,6 +15,8 @@ As a [browser extension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-on
 
 Each part is a standalone unit of the application (except the shared folder), therefore I made them as [separate typescript projects](https://www.typescriptlang.org/docs/handbook/project-references.html).
 
-You can read more about these parts from the perspective of manifest.json [here](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Anatomy_of_a_WebExtension).
+To get a grasp of the architecture, and understand why the units are made and separated like this, I recommend to read the [Anatomy of an extension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Anatomy_of_a_WebExtension) article.
 
-To build the entire app check out [this doc](./docs/build-process/build-entire-app.md).
+## Building
+
+To build the application follow the [build guide](./docs/build-process/build-entire-app.md).

@@ -54,7 +54,7 @@ The user can visit websites such as
 - websites which hold health data
 
 Backend **does not retain any data** from the content.
-However as backend does not trust frontend, neither frontend should trust backend or at least the network.
+However as backend does not trust frontend, neither should frontend trust backend or at least the network.
 
 Moreover the less we know, the smaller the chance is for a security breach. \
 ![Ignorance is our ammunition](https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fy.yarn.co%2Fd9178979-bed6-4035-8f6c-8de0c2446706_text.gif&f=1&nofb=1&ipt=445a663df8ad6feb83dffeec67a536220036e4678d9a233a7d9e374b661fb5ac)
@@ -64,13 +64,13 @@ We did not reach the point where we could implement it.
 
 #### Mitigating security concerns
 
-It's also a non-trivial task to decide whether a website might contain sensitive data.
-(Not even talking about that within a site we distinguish between sensitive and non-sensitive data.)
+It's also a non-trivial task to decide whether a website might contain sensitive data. \
+(Not to mention that within a site we distinguish between sensitive and non-sensitive data.)
 
 ##### Specify sites to access
 
-The first thing that you can do to try out the extension without taking any risk is to allow the extension to run only on specific websites.
-You can do that in the extension settings in your browser.
+The first thing that you can do to try out the extension without taking any risk is to explicitly specify the sites that the extension can access through your browser's settings.
+
 ![Specific sites access](./specific-sites-access.png)
 
 ##### Implement Whitelist
@@ -87,7 +87,7 @@ If you just try to buy a gift for your friend, or go to a fastfood restaurant's 
 ##### Making it open-source
 
 A strange point, but in case we make it open-source, we can involve the community to help us with the security concerns.
-Moreover the user (in case he/she is a technical person) can check the code and see whether it is safe to use or not.
+Moreover the user (in case one is a technical person) can check the code and see whether it is safe to use or not.
 
 ## Action based on the evaluation
 
@@ -118,7 +118,7 @@ The injected DOM from the InterveneSupervisor is encapsulated in [shadow DOM](ht
 An interesting question is why we didn't use dependency injection or lit here, while we have them in [side-panel](./side-panel-unit.md). \
 There are two reasons:
 1. For each tab the *content.js* is injected which means we might end up with a huge memory footprint.
-1. Since we are dealing with the content, therefore this part can immensely increase the loading time of a page if we don't pay enough attention to it. The import of a package itself already lengthens the loading time, not alone the usage of it.
+1. Since we are dealing with the content, therefore this part can immensely increase the loading time of a page if we don't pay enough attention to it. The import of a package itself already lengthens the loading time, let alone the usage of it.
 1. We don't know whether the site uses one or more of our packages which would lead to conflicts.
 
 Taking these into consideration, we decided to keep this as lightweight as possible.

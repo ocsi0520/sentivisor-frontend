@@ -9,7 +9,7 @@ In order to try out this extension, first we need to understand how the app is a
 
 The thing is that we wanted to support multiple languages, so we included localization from the beginning of the project. Currently only the SidePanel part is localized and that's done with [lit-localization](https://lit.dev/docs/localization/overview/)
 
-I don't want to go into details how it works, you can find it out for yourself, but the point is that we need to generate files which are related to localization, and they are referenced in production code.
+I don't want to go into details how it works, but the point is that we need to generate files which are related to localization, and they are referenced in production code.
 
 To generate the missing files:
 1. do `npm i`, so that lit-localize CLI is installed (locally).
@@ -40,7 +40,7 @@ As all tsconfig extends the [shared tsconfig](../../src/shared/tsconfig.json) (e
 ## Vite bundler
 
 The used bundler is [vite](https://vite.dev/) and its config is [vite.config.ts](../../vite.config.ts)
-As the parts are standalone units, hence we needed to specify [entry points](https://rollupjs.org/configuration-options/#input) for each of them.
+As the parts are standalone units, we needed to specify [entry points](https://rollupjs.org/configuration-options/#input) for each of them.
 
 We decided to not minify the built code so it is [easier to review](https://developer.chrome.com/docs/webstore/review-process/#review-time-factors).
 
@@ -53,9 +53,9 @@ Since we are using multiple projects we need to use the [`--build` flag](https:/
 
 But for ease of use you can just execute [`npm run build`](../../package.json?plane1#L8).
 
-## Load extension into chromium-based browser
+## Load the extension into a chromium-based browser
 
-After you succesfully built the app, the `dist` folder is present.
+After you successfully built the app, the `dist` folder is present.
 Open your chromium-based browser (personally I use [Brave](https://brave.com/))
 
 1. Go to [chrome://extensions](chrome://extensions) (Brave automatically redirects to *brave://extensions*)

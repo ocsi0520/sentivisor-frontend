@@ -44,7 +44,7 @@ This is similar to the usage of Lit. Content - no littering, consent - too small
 [chart.js](https://www.chartjs.org/) wasn't picked by me. However, I believe it was a good choice. Fairly simple and documented.
 We used [polar area chart](https://www.chartjs.org/docs/latest/samples/other-charts/polar-area.html) to [show the emotion scores](../src/SidePanel/side-panel/score-display/ChartProvider.ts?plane1#L62) of a website.
 
-Worth to note that the chart must be redrawn every time:
+Worth to note that the chart must be explicitly updated every time:
 - the [data changes](../src/SidePanel/side-panel/score-display/stv-score-display.ts?plane1#L67)
 - the [theme changes](../src/SidePanel/side-panel/score-display/stv-score-display.ts?plane1#L67)
 - the [locale changes](../src/SidePanel/side-panel/score-display/stv-score-display.ts?plane1#L77)

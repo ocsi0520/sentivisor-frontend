@@ -28,10 +28,10 @@ Let's say we have a very harmful website, there are different ways to tackle thi
 #### SupervisionMode
 
 SupervisionMode is the property that sets what is the current content-based-behaviour.
-- off - It's basically says that we don't collect any data, therefore we don't analyze the website. Good for pausing the extension temporarily. (This is the only mode where we don't collect the data.)
+- off - It basically says that we don't collect any data, therefore we don't analyze the website. Good for pausing the extension temporarily. (This is the only mode where we don't collect the data.)
 - collect - We collect the data but we don't do any client-side action, meaning we can create a summary of the visited websites but that does not affect the browsing experience in any way.
-- inform - Here we simply show an indication (right now just an emoji) what is the result of the evaluation of the current website.
-- warning - In case the current website is considered harmful, then we show a warning modal with the following options:
+- inform - Here we simply show an indication (right now just an emoji) that is the result of the evaluation of the current website.
+- warning - In case the current website is considered harmful, we show a warning modal with the following options:
   - read this - The modal is simply dismissed, the user can continue browsing
   - add to blacklist - Put the current website into the blacklist, meaning it won't be analyzed anymore
   - skip the content - The user is navigated away from the website (currently to google.com)
