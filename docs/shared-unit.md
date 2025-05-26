@@ -45,15 +45,22 @@ Messages are sent across application units. For this we need structured messages
 
 The most typical message-chain in this application:
 
-*worker* listens to [tab changes](../src/worker/worker.ts?plane1#L40) (like new tab is activated), if it happens it sends a signal to *content* (on that tab) to parse it \
-worker --[parse-signal]--> content
+```mermaid
+sequenceDiagram
+    participant Worker
+    participant Content
+    participant Sidepanel
+    
+    Worker->>Content: parse-signal
+    Content->>Worker: parsed website
+    Worker->>Content: evaluation
+    Worker->>Sidepanel: evaluation
+```
+*worker* listens to [tab changes](../src/worker/worker.ts?plane1#L40) (like new tab is activated), if it happens it sends a signal to *content* (on that tab) to parse it
 
-content (if it is allowed - i.e. [consent](./consent-unit.md) declined, [supervision mode off](#supervisionmode)) [parses current website](../src/content/content.ts?plane1#L61), then sends it to worker to evaluate it: \
-content --[parsed website]--> worker
+content (if it is allowed - i.e. [consent](./consent-unit.md) declined, [supervision mode off](#supervisionmode)) [parses current website](../src/content/content.ts?plane1#L61), then sends it to worker to evaluate it:
 
-worker evaluates it by sending the parsed website to the backend, then it [broadcasts](../src/worker/worker.ts?plane1#L117) this response to *sidepanel* if present and the *content* in the activated tab \
-worker --[evaluation]--> content \
-worker --[evaluation]--> sidepanel
+worker evaluates it by sending the parsed website to the backend, then it [broadcasts](../src/worker/worker.ts?plane1#L117) this response to *sidepanel* if present and the *content* in the activated tab
 
 ### Structured messages
 
