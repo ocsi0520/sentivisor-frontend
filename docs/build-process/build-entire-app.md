@@ -25,6 +25,7 @@ In case you'd like to add/modify/remove localized texts, then (still in src/Side
 For more information:
 - [Official Localization docs from lit](https://lit.dev/docs/localization/overview/)
 - [Official docs for Runtime localization mode from lit](https://lit.dev/docs/localization/runtime-mode/)
+- [Localization docs for the project](../localization.md)
 
 ## tsconfig files
 

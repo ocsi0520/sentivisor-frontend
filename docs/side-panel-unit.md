@@ -51,13 +51,9 @@ Worth to note that the chart must be explicitly updated every time:
 
 ### Localization
 
-TODOs:
-- localization at multiple places (also outside of the sidepanel)
-  - custom naive implementation, instead of using [built-in i18n](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Internationalization)
-- link to build guide
-- https://lit.dev/docs/localization/overview/
-  - runtime mode, as the user can switch between locales
+To see how the localization is generated, jump to [build guide](./build-process/build-entire-app.md#missing-localization-files).
 
+For more information check the [localization documentation](./localization.md#side-panel-localization).
 
 ## Shared components across side panel
 
