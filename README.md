@@ -1,12 +1,22 @@
-In order to build everything first you have to go to src/SidePanel folder
-and generate the locale files with: `npx lit-localize build`.
+# Sentivisor Frontend
 
-In case you'd like to add/modify/remove localized texts, then (still in src/SidePanel):
-1. Write in the terminal: `npx lit-localize extract`.
-1. hu.xlf file is generated, there you can edit it by adding <target>translated text</target> for each record.
-1. After you are done write in the terminal `npx lit-localize build`.
-1. You are done :)
+This is a currently on halt project which is most probably not going to be continued.
+The aim was to create a chrome extension for [Sentivisor](https://sentivisor.com/).
 
-For more information:
-- [Official Localization docs from lit](https://lit.dev/docs/localization/overview/)
-- [Official docs for Runtime localization mode from lit](https://lit.dev/docs/localization/runtime-mode/)
+Sentivisor is a product which constantly monitors your "daily dose of internet" and evaluates whether it's harmful for your mental health.
+Personally speaking, this would be really advantageous at least for me, as I start my mornings with reading all kinds of news and finish my day with the same activity, and as a hobby I do it during my days as well 😅.
+
+As a [browser extension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions) the project consists of several parts.
+- a reusable [shared](./docs/shared-unit.md) folder
+- giving [consent](./docs/consent-unit.md)
+- [side-panel](./docs/side-panel-unit.md) (which is basically the "options")
+- [worker](./docs/worker-unit.md) (center/mediator of the application)
+- [content](./docs/content-unit.md) (executor / DOM changer)
+
+Each part is a standalone unit of the application (except the shared folder), therefore I made them as [separate typescript projects](https://www.typescriptlang.org/docs/handbook/project-references.html).
+
+To get a grasp of the architecture, and understand why the units are made and separated like this, I recommend to read the [Anatomy of an extension](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Anatomy_of_a_WebExtension) article.
+
+## Building
+
+To build the application follow the [build guide](./docs/build-process/build-entire-app.md).
