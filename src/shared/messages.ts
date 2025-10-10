@@ -14,7 +14,6 @@ export type DisplayData =
   | {
       type: "displayable";
       emotionScores: EmotionScores;
-      alreadyHandled: boolean;
     };
 
 export type DisplayEvent = {
