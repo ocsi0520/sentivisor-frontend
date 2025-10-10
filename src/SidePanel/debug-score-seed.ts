@@ -40,7 +40,6 @@ export class DebugScoreSeed extends LitElement {
     this.dispatchChangeEventWith({
       type: "displayable",
       emotionScores: newScores,
-      alreadyHandled: false,
     });
   }
 

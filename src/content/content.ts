@@ -53,8 +53,7 @@ const parseContent = async () => {
 };
 
 messageMediator.listen("display", (emotionAnalysis) => {
-  if (emotionAnalysis.type !== "displayable" || emotionAnalysis.alreadyHandled)
-    return;
+  if (emotionAnalysis.type !== "displayable") return;
 
   sentivisor.handleEmotionAnalysis(emotionAnalysis.emotionScores);
 });
