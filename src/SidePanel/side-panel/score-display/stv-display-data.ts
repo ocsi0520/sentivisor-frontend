@@ -47,6 +47,8 @@ export class StvDisplayData extends LitElement {
       return html`<p>supervision mode is off</p>`;
     if (this.displayData.type === "inner-page")
       return html`<p>This is an inner page</p>`;
+    if (this.displayData.type === "unsupported-language")
+      return html`<p>This site has an unsupported language</p>`;
 
     return html`
       <stv-score-display

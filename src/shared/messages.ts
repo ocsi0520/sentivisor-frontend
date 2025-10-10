@@ -11,6 +11,7 @@ export type DisplayData =
   | { type: "black-listed" }
   | { type: "off-supervision-mode" }
   | { type: "inner-page" }
+  | { type: "unsupported-language" }
   | {
       type: "displayable";
       emotionScores: EmotionScores;
