@@ -8,9 +8,15 @@ export class Sentivisor {
     private superVisorProvider: SupervisorProvider
   ) {}
 
+  private hasTreated = false;
+
   public async handleEmotionAnalysis(
     sentimentData: EmotionScores
   ): Promise<void> {
+    if (this.hasTreated) return;
+
+    this.hasTreated = true;
+
     const selectedConsultant = this.consultantProvider.provideConsultant();
     const evaluationResult = await selectedConsultant.evaluate(sentimentData);
 
