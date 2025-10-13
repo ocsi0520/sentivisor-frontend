@@ -25,7 +25,7 @@ export class InterveneSupervisor implements Supervisor {
     const shadowHost = this.intervener.getShadowHost(harmfulnessEvaluation);
 
     shadowHost.addEventListener("add-to-blacklist", async (): Promise<void> => {
-      this.blacklistStorage.addDomain(getPrimaryDomain());
+      await this.blacklistStorage.addDomain(getPrimaryDomain());
       // TODO: this should be an aspect (aspect-oriented programming) to BlackListStorage
       this.messageMediator.send("blackListChange", undefined);
       shadowHost.remove();
