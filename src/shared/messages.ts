@@ -12,6 +12,7 @@ export type DisplayData =
   | { type: "off-supervision-mode" }
   | { type: "inner-page" }
   | { type: "unsupported-language" }
+  | { type: "error", errorMessage: string }
   | {
       type: "displayable";
       emotionScores: EmotionScores;

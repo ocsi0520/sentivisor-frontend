@@ -49,6 +49,8 @@ export class StvDisplayData extends LitElement {
       return html`<p>This is an inner page</p>`;
     if (this.displayData.type === "unsupported-language")
       return html`<p>This site has an unsupported language</p>`;
+    if (this.displayData.type === "error")
+      return html`<p>Error: ${this.displayData.errorMessage}</p>`;
 
     return html`
       <stv-score-display
