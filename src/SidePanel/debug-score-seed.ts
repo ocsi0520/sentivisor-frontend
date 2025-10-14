@@ -96,7 +96,7 @@ export class DebugScoreSeed extends LitElement {
   private displayError(): void {
     this.dispatchChangeEventWith({
       type: "error",
-      errorMessage: "Something went wrong. :(",
+      errorMessage: "Internal System error.",
     });
   }
 
