@@ -10,7 +10,7 @@ import { localized, msg } from "@lit/localize";
 import { SearchEvent } from "../../shared/search-event";
 import { MessageMediator, Unsubscribe } from "#shared/MessageMediator";
 import { getActiveTab } from "#shared/utils";
-import questionMarkIcon from "#assets/images/question-mark.svg?no-inline";
+import { getDisposeDispatcher } from "#shared/ui-related/dispose-event";
 
 const tagName = "stv-user-black-list" as const;
 
@@ -43,6 +43,11 @@ export class StvUserBlackList extends LitElement {
       svg {
         width: 16px;
         height: 16px;
+      }
+
+      div[slot="tooltip"] {
+        background-color: lightblue;
+        color: rebeccapurple;
       }
     `,
   ];
@@ -105,9 +110,15 @@ export class StvUserBlackList extends LitElement {
             <p>${msg("Ignored Domains")}</p>
           </div>
           <div class="w-50 text-end">
-            <button class="btn-icon">
-              <svg><use href="${questionMarkIcon}"></use></svg>
-            </button>
+            <stv-prompter>
+              <div slot="tooltip">
+                <p>These are the domains which we should not evaluate.</p>
+              </div>
+              <div slot="modal">
+                <p>This should be a modal content</p>
+                <button @click=${getDisposeDispatcher()}>Close this</button>
+              </div>
+            </stv-prompter>
           </div>
         </div>
         ${this.renderListSection()}
