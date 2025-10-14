@@ -38,7 +38,6 @@ export class StvDisplayData extends LitElement {
   }
 
   private renderDisplayer(): TemplateResult {
-    // TODO: proper components
     if (this.displayData === undefined)
       return html`<stv-loading-indicator></stv-loading-indicator>`;
     if (this.displayData.type === "displayable")

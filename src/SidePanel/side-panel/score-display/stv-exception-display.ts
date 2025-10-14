@@ -4,7 +4,12 @@ import { customElement, property } from "lit/decorators.js";
 import { commonStyle } from "../../shared-styles/common.style";
 import { Theme } from "#shared/theme-colors";
 import { ExceptionDisplayData } from "#shared/messages";
-import unsupportedLanguageIcon from "#assets/images/evaluation-exceptions/unsupported-language.svg";
+import { unsafeSVG } from "lit/directives/unsafe-svg.js";
+import unsupportedLanguageIcon from "#assets/images/evaluation-exceptions/unsupported-language.svg?raw";
+import computerFailIcon from "#assets/images/evaluation-exceptions/computer-fail.svg?raw";
+import contractDenyIcon from "#assets/images/evaluation-exceptions/contract-deny.svg?raw";
+import gearSetupIcon from "#assets/images/evaluation-exceptions/gears-setup.svg?raw";
+import offRoundedIcon from "#assets/images/evaluation-exceptions/off-rounded.svg?raw";
 
 const tagName = "stv-exception-display" as const;
 
@@ -25,6 +30,7 @@ export class StvDisplayData extends LitElement {
       div.image-wrapper,
       p {
         flex: 1 1 0;
+        color: var(--text-color);
       }
       div.image-wrapper {
         position: relative;
@@ -32,7 +38,7 @@ export class StvDisplayData extends LitElement {
         justify-content: center;
         align-items: center;
       }
-      img {
+      svg {
         height: 100%;
         max-width: 100%;
         width: auto;
@@ -53,16 +59,16 @@ export class StvDisplayData extends LitElement {
     { imgUrl: string; content: () => string }
   > = {
     "inner-page": {
-      imgUrl: "https://www.svgrepo.com/show/280760/gears-setup.svg",
+      imgUrl: gearSetupIcon,
       content: () =>
         msg("Currently you are viewing a settings page of your browser."),
     },
     "black-listed": {
-      imgUrl: "https://www.svgrepo.com/show/317695/contract-deny.svg",
+      imgUrl: contractDenyIcon,
       content: () => msg("This page is on your blacklist."),
     },
     "off-supervision-mode": {
-      imgUrl: "https://www.svgrepo.com/show/325451/off-rounded.svg",
+      imgUrl: offRoundedIcon,
       content: () =>
         msg(
           "Supervision mode is set to off. Change it if you want to evaluate sites."
@@ -74,7 +80,7 @@ export class StvDisplayData extends LitElement {
         msg("The language of this website is currently not supported."),
     },
     error: {
-      imgUrl: "https://www.svgrepo.com/show/451518/computer-fail.svg",
+      imgUrl: computerFailIcon,
       content: () => msg("Something went wrong."),
     },
   };
@@ -99,9 +105,7 @@ export class StvDisplayData extends LitElement {
     return html`
       <div class="card shadow-sm">
         <div class="exception-wrapper">
-          <div class="image-wrapper">
-            <img src="${imgUrl}" />
-          </div>
+          <div class="image-wrapper">${unsafeSVG(imgUrl)}</div>
           <p>${content()} ${extraContent}</p>
         </div>
       </div>
