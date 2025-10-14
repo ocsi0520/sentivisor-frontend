@@ -2,7 +2,7 @@ import { LitElement, html, css, TemplateResult, nothing } from "lit";
 import { customElement, query, state } from "lit/decorators.js";
 import questionMarkIcon from "#assets/images/question-mark.svg?no-inline";
 import { commonStyle } from "../../shared-styles/common.style";
-import { computePosition, flip, offset } from "@floating-ui/dom";
+import { computePosition, flip } from "@floating-ui/dom";
 
 const tagName = "stv-prompter" as const;
 
@@ -33,11 +33,12 @@ export class StvPrompter extends LitElement {
         border: 2px solid red;
       }
       .tooltip {
-        display: none;
+        visibility: hidden;
         position: absolute;
         width: max-content;
         top: 0;
         left: 0;
+        max-width: 75%;
       }
       svg {
         width: 16px;
@@ -79,21 +80,20 @@ export class StvPrompter extends LitElement {
   }
 
   private async showTooltip(): Promise<void> {
-    // TODO: gets wrong position, most probably the config is not good
     const response = await computePosition(this.iconButton, this.tooltip, {
-      middleware: [flip(), offset({ mainAxis: 100, crossAxis: -100 })],
-      placement: "top-start",
+      middleware: [flip()],
+      placement: "top-end",
       strategy: "absolute",
     });
     Object.assign(this.tooltip.style, {
       left: `${response.x}px`,
       top: `${response.y}px`,
-      display: "block",
+      visibility: "visible",
     });
   }
 
   private hideTooltip(): void {
-    this.tooltip.style.display = "none";
+    this.tooltip.style.visibility = "hidden";
   }
 
   private renderModal(): TemplateResult | typeof nothing {
