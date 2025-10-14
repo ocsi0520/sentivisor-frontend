@@ -1,7 +1,6 @@
 import { LitElement, html, css, TemplateResult, nothing } from "lit";
 import { customElement, query, state } from "lit/decorators.js";
-import { unsafeSVG } from "lit/directives/unsafe-svg.js";
-import questionMarkIcon from "#assets/images/question-mark.svg?raw";
+import questionMarkIcon from "#assets/images/question-mark.svg?no-inline";
 import { commonStyle } from "../../shared-styles/common.style";
 import { computePosition, flip, offset } from "@floating-ui/dom";
 
@@ -40,6 +39,10 @@ export class StvPrompter extends LitElement {
         top: 0;
         left: 0;
       }
+      svg {
+        width: 16px;
+        height: 16px;
+      }
     `,
   ];
 
@@ -65,7 +68,7 @@ export class StvPrompter extends LitElement {
         @click=${this.toggleModal}
         class="btn-icon modal-reference"
       >
-        ${unsafeSVG(questionMarkIcon)}
+        <svg><use href="${questionMarkIcon}"></use></svg>
       </button>
       ${this.renderTooltip()} ${this.renderModal()}
     `;
