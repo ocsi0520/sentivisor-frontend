@@ -1,7 +1,10 @@
 import { container } from "tsyringe";
 import { css, html, LitElement, TemplateResult } from "lit";
 import { customElement, state } from "lit/decorators.js";
-import { commonStyle, structuralStyles } from "../../shared-styles/common.style";
+import {
+  commonStyle,
+  structuralStyles,
+} from "../../shared-styles/common.style";
 import { localized, msg } from "@lit/localize";
 import {
   isValidSupervisionMode,
@@ -45,7 +48,7 @@ export class StvSupervisionSelector extends LitElement {
         display: flex;
         justify-content: space-between;
         color: var(--text-color);
-        gap:20px;
+        gap: 20px;
       }
 
       p {
@@ -76,9 +79,14 @@ export class StvSupervisionSelector extends LitElement {
 
       div[slot="tooltip"],
       div[slot="modal"] {
-        text-align: center !important;
+        text-align: center;
         color: var(--text-color);
-        background-color: rgba(255, 255, 255, 0.4);
+      }
+
+      div[slot="tooltip"] {
+        color: var(--text-color);
+        background-color: var(--background-color);
+        border: 1px solid var(--text-color);
       }
     `,
   ];
