@@ -8,7 +8,7 @@ export type ThemeColors = {
   "--chart-label": string;
   "--box-shadow": string;
   "--card-background": string;
-  "--toolbar-icon-url": string;
+  "--toolbar-icon-name": string; // looks for images/theme-icons/<icon-name>
 };
 
 export const themes: Record<Theme, ThemeColors> = {
@@ -20,7 +20,7 @@ export const themes: Record<Theme, ThemeColors> = {
     "--chart-label": "rgba(0, 0, 0, 0.1)",
     "--box-shadow": "rgba(0, 0, 0, 0.45) 0 5px 11px -10px",
     "--card-background": "transparent",
-    "--toolbar-icon-url": "url(/toolbar-icons/moon-icon.svg)",
+    "--toolbar-icon-name": "moon-icon.svg", // looks for images/theme-icons/moon-icon.svg
   },
   dark: {
     "--primary-color": "#007bff",
@@ -30,6 +30,6 @@ export const themes: Record<Theme, ThemeColors> = {
     "--chart-label": "rgba(255, 255, 255, 0.1)",
     "--box-shadow": "rgba(0, 0, 0, 1) 0 5px 9px -5px",
     "--card-background": "#282828",
-    "--toolbar-icon-url": "url(/toolbar-icons/sun-icon.svg)",
+    "--toolbar-icon-name": "sun-icon.svg", // looks for images/theme-icons/sun-icon.svg,
   },
 };

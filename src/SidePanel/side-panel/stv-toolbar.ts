@@ -1,11 +1,9 @@
 import { css, html, LitElement, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import moonIcon from "#assets/images/moon-icon.svg?url&no-inline";
-import sunIcon from "#assets/images/sun-icon.svg?url&no-inline";
+import { customElement } from "lit/decorators.js";
 import { commonStyle } from "../shared-styles/common.style";
-import { Theme } from "#shared/theme-colors";
 import { allLocales } from "../localization/generated/config";
 import { localization } from "../localization";
+import { ThemeColors, themes } from "#shared/theme-colors";
 
 const tagName = "stv-toolbar" as const;
 
@@ -18,30 +16,25 @@ export class StvToolbar extends LitElement {
         padding: 6px 0 3px 14px;
       }
 
-      .toolbar svg,
-      .toolbar img,
-      .toolbar .hard-try {
+      .toolbar svg {
         width: 1.4em;
         height: 1.4em;
         color: var(--text-color);
-        border: 1px solid red;
-      }
-      .toolbar .hard-try {
-        background-image: var(--toolbar-icon-url);
-        background-size: contain;
-        background-repeat: no-repeat;
-        border: 1px solid blue;
       }
     `,
   ];
 
-  @property({ type: String })
-  public theme!: Theme;
-
   private get themeIcon(): string {
-    return this.theme === "dark"
-      ? `${sunIcon}#entire-sun-icon`
-      : `${moonIcon}#entire-moon-icon`;
+    const toolbarIconKey: keyof ThemeColors = "--toolbar-icon-name";
+    const themeIconCssVariable = this.computedStyleMap().get(toolbarIconKey);
+
+    const themeIconName =
+      themeIconCssVariable?.toString() || themes.dark[toolbarIconKey];
+    const themeIconAbsolutePath = `images/theme-icons/${themeIconName}`;
+
+    // TODO: inject chrome.runtime
+    const filePath = chrome.runtime.getURL(themeIconAbsolutePath);
+    return filePath;
   }
 
   private dispatchToggleTheme(): void {
@@ -51,6 +44,7 @@ export class StvToolbar extends LitElement {
       composed: true,
     });
     this.dispatchEvent(event);
+    this.requestUpdate();
   }
 
   protected render(): TemplateResult {
@@ -58,11 +52,7 @@ export class StvToolbar extends LitElement {
       <div class="toolbar-wrapper shadow-sm">
         <div class="toolbar">
           <button @click=${this.dispatchToggleTheme} class="btn-icon">
-            <svg>
-              <use href=${this.themeIcon}></use>
-            </svg>
-            <img src=${this.themeIcon} />
-            <div class="hard-try"></div>
+            <svg><use href=${this.themeIcon}></use></svg>
           </button>
           ${this.renderLanguageSelector()}
         </div>
