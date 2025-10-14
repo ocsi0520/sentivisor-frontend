@@ -1,12 +1,9 @@
 import { css, html, LitElement, TemplateResult } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { unsafeSVG } from "lit/directives/unsafe-svg.js";
-import moonIcon from "#assets/images/moon-icon.svg?raw";
-import sunIcon from "#assets/images/sun-icon.svg?raw";
+import { customElement } from "lit/decorators.js";
 import { commonStyle } from "../shared-styles/common.style";
-import { Theme } from "#shared/theme-colors";
 import { allLocales } from "../localization/generated/config";
 import { localization } from "../localization";
+import { ThemeColors, themes } from "#shared/theme-colors";
 
 const tagName = "stv-toolbar" as const;
 
@@ -27,11 +24,17 @@ export class StvToolbar extends LitElement {
     `,
   ];
 
-  @property({ type: String })
-  public theme!: Theme;
-
   private get themeIcon(): string {
-    return this.theme === "dark" ? sunIcon : moonIcon;
+    const toolbarIconKey: keyof ThemeColors = "--toolbar-icon-name";
+    const themeIconCssVariable = this.computedStyleMap().get(toolbarIconKey);
+
+    const themeIconName =
+      themeIconCssVariable?.toString() || themes.dark[toolbarIconKey];
+    const themeIconAbsolutePath = `images/theme-icons/${themeIconName}`;
+
+    // TODO: inject chrome.runtime
+    const filePath = chrome.runtime.getURL(themeIconAbsolutePath);
+    return filePath;
   }
 
   private dispatchToggleTheme(): void {
@@ -41,6 +44,7 @@ export class StvToolbar extends LitElement {
       composed: true,
     });
     this.dispatchEvent(event);
+    this.requestUpdate();
   }
 
   protected render(): TemplateResult {
@@ -48,7 +52,7 @@ export class StvToolbar extends LitElement {
       <div class="toolbar-wrapper shadow-sm">
         <div class="toolbar">
           <button @click=${this.dispatchToggleTheme} class="btn-icon">
-            ${unsafeSVG(this.themeIcon)}
+            <svg><use href=${this.themeIcon}></use></svg>
           </button>
           ${this.renderLanguageSelector()}
         </div>

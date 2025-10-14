@@ -2,14 +2,12 @@ import { css, html, LitElement, TemplateResult } from "lit";
 import { localized, msg } from "@lit/localize";
 import { customElement, property } from "lit/decorators.js";
 import { commonStyle } from "../../shared-styles/common.style";
-import { Theme } from "#shared/theme-colors";
 import { ExceptionDisplayData } from "#shared/messages";
-import { unsafeSVG } from "lit/directives/unsafe-svg.js";
-import unsupportedLanguageIcon from "#assets/images/evaluation-exceptions/unsupported-language.svg?raw";
-import computerFailIcon from "#assets/images/evaluation-exceptions/computer-fail.svg?raw";
-import contractDenyIcon from "#assets/images/evaluation-exceptions/contract-deny.svg?raw";
-import gearSetupIcon from "#assets/images/evaluation-exceptions/gears-setup.svg?raw";
-import offRoundedIcon from "#assets/images/evaluation-exceptions/off-rounded.svg?raw";
+import unsupportedLanguageIcon from "#assets/images/evaluation-exceptions/unsupported-language.svg?no-inline";
+import computerFailIcon from "#assets/images/evaluation-exceptions/computer-fail.svg?no-inline";
+import contractDenyIcon from "#assets/images/evaluation-exceptions/contract-deny.svg?no-inline";
+import gearSetupIcon from "#assets/images/evaluation-exceptions/gears-setup.svg?no-inline";
+import offRoundedIcon from "#assets/images/evaluation-exceptions/off-rounded.svg?no-inline";
 
 const tagName = "stv-exception-display" as const;
 
@@ -88,9 +86,6 @@ export class StvDisplayData extends LitElement {
   @property({ type: Object })
   public displayData!: ExceptionDisplayData;
 
-  @property({ type: String })
-  public theme!: Theme;
-
   protected render(): TemplateResult {
     return this.renderGeneralException(
       this.displayData.type === "error"
@@ -105,7 +100,9 @@ export class StvDisplayData extends LitElement {
     return html`
       <div class="card shadow-sm">
         <div class="exception-wrapper">
-          <div class="image-wrapper">${unsafeSVG(imgUrl)}</div>
+          <div class="image-wrapper">
+            <svg><use href="${imgUrl}"></use></svg>
+          </div>
           <p>${content()} ${extraContent}</p>
         </div>
       </div>
