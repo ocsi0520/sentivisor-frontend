@@ -9,8 +9,7 @@ import {
 import { customElement, property, query } from "lit/decorators.js";
 import { SearchEvent } from "./search-event";
 import { localized, msg } from "@lit/localize";
-import { unsafeSVG } from "lit/directives/unsafe-svg.js";
-import filterIcon from "#assets/images/filter.svg?raw";
+import filterIcon from "#assets/images/filter.svg?no-inline";
 import { commonStyle } from "../shared-styles/common.style";
 
 const tagName = "stv-search-field" as const;
@@ -21,31 +20,32 @@ export class StvSearchField extends LitElement {
   public static styles = [
     commonStyle,
     css`
-    :host {
-      display: block;
-      padding-left: 10px;
-    }
-    div {
-      display: flex;
-      gap: 4px;
-    }
-    input {
-      flex: 1 1 0;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid;
-      color: var(--text-color);
-      padding: 0 0 2px 0;
-      outline: none;
-    }
-    .filter-icon{
-      width: 16px;
-      height: 16px;
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-    }
-  `];
+      :host {
+        display: block;
+        padding-left: 10px;
+      }
+      div {
+        display: flex;
+        gap: 4px;
+      }
+      input {
+        flex: 1 1 0;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid;
+        color: var(--text-color);
+        padding: 0 0 2px 0;
+        outline: none;
+      }
+      .filter-icon {
+        width: 16px;
+        height: 16px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+      }
+    `,
+  ];
 
   private currentInputValue = "";
 
@@ -93,10 +93,12 @@ export class StvSearchField extends LitElement {
     return html`
       <div style="width:96.5%">
         <input placeholder="Start typing to filter..." />
-        <div class="filter-icon">${unsafeSVG(filterIcon)}</div>        
+        <div class="filter-icon">
+          <svg><use href="${filterIcon}"></use></svg>
+        </div>
         ${this.continuousSearch
-        ? nothing
-        : html`<button @click=${this.emitSearchEvent}>
+          ? nothing
+          : html`<button @click=${this.emitSearchEvent}>
               ${msg("Search")}
             </button>`}
       </div>
