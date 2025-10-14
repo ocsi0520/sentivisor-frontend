@@ -89,6 +89,17 @@ export class DebugScoreSeed extends LitElement {
     this.dispatchChangeEventWith({ type: "inner-page" });
   }
 
+  private displayUnsupportedLanguage(): void {
+    this.dispatchChangeEventWith({ type: "unsupported-language" });
+  }
+
+  private displayError(): void {
+    this.dispatchChangeEventWith({
+      type: "error",
+      errorMessage: "Internal System error.",
+    });
+  }
+
   private renderScoreSeeders(): TemplateResult {
     return html`
       <div>
@@ -111,6 +122,10 @@ export class DebugScoreSeed extends LitElement {
           display off supervision mode
         </button>
         <button @click=${this.displayInnerPage}>display inner page</button>
+        <button @click=${this.displayUnsupportedLanguage}>
+          unsupported-language
+        </button>
+        <button @click=${this.displayError}>display error</button>
       </div>
     `;
   }

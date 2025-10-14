@@ -7,10 +7,15 @@ export type ParseEvent = {
   response: void;
 };
 
-export type DisplayData =
+export type ExceptionDisplayData =
   | { type: "black-listed" }
   | { type: "off-supervision-mode" }
   | { type: "inner-page" }
+  | { type: "unsupported-language" }
+  | { type: "error"; errorMessage: string };
+
+export type DisplayData =
+  | ExceptionDisplayData
   | {
       type: "displayable";
       emotionScores: EmotionScores;

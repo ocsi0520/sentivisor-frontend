@@ -74,16 +74,17 @@ chrome.sidePanel
   .catch((error) => console.error(error));
 
 messageMediator.listen("analyze", async (message, _sender, sendResponse) => {
-  // TODO: error handling
-  // TODO: get tabid
-  const evaluation = await analyzer.analyze(message);
-
-  const displayableData: DisplayData = {
-    type: "displayable",
-    emotionScores: evaluation,
-  };
-  void sendScoresToDisplay(displayableData);
-  sendResponse(displayableData);
+  // TODO: get tabid, so when we switch while fetching, we won't show it to the wrong tab
+  let displayData: DisplayData;
+  try {
+    const evaluation = await analyzer.analyze(message);
+    displayData = { type: "displayable", emotionScores: evaluation };
+  } catch (e) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    displayData = { type: "error", errorMessage };
+  }
+  void sendScoresToDisplay(displayData);
+  sendResponse(displayData);
 });
 
 const sendScoresToDisplay = async (

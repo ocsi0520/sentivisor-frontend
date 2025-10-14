@@ -46,7 +46,11 @@ const parseContent = async () => {
 
   const allTexts: string = document.body.innerText;
   const lang: string = checkLanguage(allTexts);
-  if (!isAllowedLanguage(lang)) return;
+
+  if (!isAllowedLanguage(lang)) {
+    messageMediator.send("display", { type: "unsupported-language" });
+    return;
+  }
 
   const url = `${location.origin}${location.pathname}`;
   messageMediator.send("analyze", { language: lang, text: allTexts, url });
@@ -57,6 +61,7 @@ messageMediator.listen("display", (emotionAnalysis) => {
 
   sentivisor.handleEmotionAnalysis(emotionAnalysis.emotionScores);
 });
+
 messageMediator.listen("parse", parseContent);
 
 messageMediator.listen("getPrimaryDomain", (_msg, _sender, sendResponse) => {

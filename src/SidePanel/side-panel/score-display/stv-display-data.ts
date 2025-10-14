@@ -38,22 +38,21 @@ export class StvDisplayData extends LitElement {
   }
 
   private renderDisplayer(): TemplateResult {
-    // TODO: proper components
     if (this.displayData === undefined)
       return html`<stv-loading-indicator></stv-loading-indicator>`;
-    if (this.displayData.type === "black-listed")
-      return html`<p>this is a blacklisted page</p>`;
-    if (this.displayData.type === "off-supervision-mode")
-      return html`<p>supervision mode is off</p>`;
-    if (this.displayData.type === "inner-page")
-      return html`<p>This is an inner page</p>`;
+    if (this.displayData.type === "displayable")
+      return html`
+        <stv-score-display
+          .scores=${this.displayData.emotionScores}
+          .theme=${this.theme}
+        >
+        </stv-score-display>
+      `;
 
     return html`
-      <stv-score-display
-        .scores=${this.displayData.emotionScores}
-        .theme=${this.theme}
-      >
-      </stv-score-display>
+      <stv-exception-display
+        .displayData=${this.displayData}
+      ></stv-exception-display>
     `;
   }
 }
