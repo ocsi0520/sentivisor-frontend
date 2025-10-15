@@ -1,8 +1,6 @@
 import { css, html, LitElement, TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
 import { commonStyle } from "../shared-styles/common.style";
-import { allLocales } from "../localization/generated/config";
-import { localization } from "../localization";
 import { ThemeColors, themes } from "#shared/theme-colors";
 
 const tagName = "stv-toolbar" as const;
@@ -54,22 +52,9 @@ export class StvToolbar extends LitElement {
           <button @click=${this.dispatchToggleTheme} class="btn-icon">
             <svg><use href=${this.themeIcon}></use></svg>
           </button>
-          ${this.renderLanguageSelector()}
         </div>
       </div>
     `;
-  }
-  private changeLocal(ev: Event): void {
-    const typedTarget = ev.target as HTMLSelectElement;
-    localization.setLocale(typedTarget.value);
-  }
-
-  private renderLanguageSelector(): TemplateResult {
-    return html`<select @change=${this.changeLocal}>
-      ${allLocales.map(
-        (locale) => html` <option value=${locale}>${locale}</option> `
-      )}
-    </select>`;
   }
 }
 
