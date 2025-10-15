@@ -32,6 +32,12 @@ export class StvSidePanel extends LitElement {
     `,
   ];
 
+  @property()
+  public theme!: Theme;
+
+  @state()
+  private displayData?: DisplayData;
+
   private messageMediator = container.resolve(MessageMediator);
   private unsubscribe?: Unsubscribe;
 
@@ -62,12 +68,6 @@ export class StvSidePanel extends LitElement {
     this.unsubscribe?.();
     this.port?.disconnect();
   }
-
-  @state()
-  private displayData?: DisplayData;
-
-  @property()
-  private theme!: Theme;
 
   public render(): TemplateResult {
     return html`

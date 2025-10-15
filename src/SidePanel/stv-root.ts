@@ -93,7 +93,10 @@ export class StvRoot extends LitElement {
       return html` <stv-ask-for-consent></stv-ask-for-consent> `;
 
     return html`
-      <stv-side-panel @toggle-theme=${this.toggleTheme}></stv-side-panel>
+      <stv-side-panel
+        .theme=${this.theme}
+        @toggle-theme=${this.toggleTheme}
+      ></stv-side-panel>
     `;
   }
 }
