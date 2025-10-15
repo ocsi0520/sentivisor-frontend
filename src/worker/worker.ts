@@ -3,6 +3,8 @@ import { DisplayData } from "#shared/messages";
 import { getActiveTab } from "#shared/utils";
 import { Analyzer } from "./Analyzer";
 
+console.log("worker has started");
+
 const messageMediator = new MessageMediator();
 const analyzer = new Analyzer();
 
@@ -98,3 +100,8 @@ const sendScoresToDisplay = async (
   //  maybe those can be separated as well
   if (isSidePanelOpen) messageMediator.send("display", displayableData); // this goes to sidepanel
 };
+
+messageMediator.listen("debug", (debugMessage) => {
+  console.log("service worker:", debugMessage);
+  messageMediator.send("debug", "I got the message: " + debugMessage);
+});

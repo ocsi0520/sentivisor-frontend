@@ -53,6 +53,12 @@ export type ConsentChangeEvent = {
   response: void;
 };
 
+// TODO: remove DebugEvent
+export type DebugEvent = {
+  message: string;
+  response: void;
+}
+
 export type MessageMap = {
   parse: ParseEvent; // ??? --> content // then after it parsed, it sends "analyze"
   display: DisplayEvent; // worker, content --> sidepanel
@@ -60,4 +66,5 @@ export type MessageMap = {
   blackListChange: BlackListChangeEvent;
   getPrimaryDomain: GetPrimaryDomainEvent;
   consentChange: ConsentChangeEvent;
+  debug: DebugEvent;
 };
