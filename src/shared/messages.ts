@@ -7,24 +7,23 @@ export type ParseEvent = {
   response: void;
 };
 
+export type TabInfo = { tabId: number; windowId: number };
+
+export type ErrorDisplayData = { type: "error"; errorMessage: string };
+
 export type ExceptionDisplayData =
   | { type: "black-listed" }
   | { type: "off-supervision-mode" }
   | { type: "inner-page" }
   | { type: "unsupported-language" }
-  | { type: "error"; errorMessage: string };
+  | ErrorDisplayData;
 
-export type DisplayData =
-  | ExceptionDisplayData
-  | {
-      type: "displayable";
-      emotionScores: EmotionScores;
-    };
-
-export type DisplayEvent = {
-  message: DisplayData;
-  response: void;
+export type DisplayableData = {
+  type: "displayable";
+  emotionScores: EmotionScores;
 };
+
+export type DisplayData = ExceptionDisplayData | DisplayableData;
 
 export type AnalyzableContent = {
   // content --> worker
@@ -35,7 +34,7 @@ export type AnalyzableContent = {
 
 export type AnalyzeEvent = {
   message: AnalyzableContent; // content --> worker
-  response: DisplayData;
+  response: DisplayableData | ErrorDisplayData;
 };
 
 export type BlackListChangeEvent = {
@@ -53,15 +52,31 @@ export type ConsentChangeEvent = {
   response: void;
 };
 
+export type GetEvaluationEvent = {
+  message: TabInfo;
+  response: void;
+};
+
+export type SendEvaluationEvent = {
+  message: { displayData: DisplayData } & TabInfo;
+  response: void;
+};
+
+export type TabActivatedEvent = {
+  message?: never;
+  response: void;
+};
+
 // TODO: remove DebugEvent
 export type DebugEvent = {
   message: string;
   response: void;
-}
+};
 
 export type MessageMap = {
-  parse: ParseEvent; // ??? --> content // then after it parsed, it sends "analyze"
-  display: DisplayEvent; // worker, content --> sidepanel
+  act: TabActivatedEvent;
+  getEvaluation: GetEvaluationEvent;
+  sendEvaluation: SendEvaluationEvent;
   analyze: AnalyzeEvent; // content --> worker
   blackListChange: BlackListChangeEvent;
   getPrimaryDomain: GetPrimaryDomainEvent;
