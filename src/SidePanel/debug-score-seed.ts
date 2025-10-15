@@ -64,10 +64,12 @@ export class DebugScoreSeed extends LitElement {
   }
 
   private async loadScoresForCurrentSite(): Promise<void> {
-    // TODO: parse --> analyze --> display
-    // <-- parse <-- analyze (should return EmotionScores)
-    const activeTab = await getActiveTab();
-    this.messageMediator.send("parse", undefined, activeTab.id);
+    const activeTab = await getActiveTab(this.chromeInstance.tabs);
+    this.messageMediator.send(
+      "getEvaluation",
+      { tabId: activeTab.id!, windowId: activeTab.windowId },
+      activeTab.id
+    );
   }
 
   private async clearBlackList(): Promise<void> {
