@@ -2,6 +2,8 @@ import { css, html, LitElement, TemplateResult } from "lit";
 import { customElement } from "lit/decorators.js";
 import { commonStyle } from "../shared-styles/common.style";
 import { ThemeColors, themes } from "#shared/theme-colors";
+import { container } from "tsyringe";
+import { CHROME_GLOBAL_VARIABLE } from "../dependency-injection/dom-symbols";
 
 const tagName = "stv-toolbar" as const;
 
@@ -22,6 +24,10 @@ export class StvToolbar extends LitElement {
     `,
   ];
 
+  private chromeInstance: typeof chrome = container.resolve(
+    CHROME_GLOBAL_VARIABLE
+  );
+
   private get themeIcon(): string {
     const toolbarIconKey: keyof ThemeColors = "--toolbar-icon-name";
     const themeIconCssVariable = this.computedStyleMap().get(toolbarIconKey);
@@ -30,8 +36,7 @@ export class StvToolbar extends LitElement {
       themeIconCssVariable?.toString() || themes.dark[toolbarIconKey];
     const themeIconAbsolutePath = `images/theme-icons/${themeIconName}`;
 
-    // TODO: inject chrome.runtime
-    const filePath = chrome.runtime.getURL(themeIconAbsolutePath);
+    const filePath = this.chromeInstance.runtime.getURL(themeIconAbsolutePath);
     return filePath;
   }
 

@@ -6,6 +6,7 @@ import type { Theme } from "#shared/theme-colors";
 import type { DisplayChangeEvent } from "../debug-score-seed";
 import { container } from "tsyringe";
 import { MessageMediator, Unsubscribe } from "#shared/MessageMediator";
+import { CHROME_GLOBAL_VARIABLE } from "../dependency-injection/dom-symbols";
 
 const tagName = "stv-side-panel" as const;
 @customElement(tagName)
@@ -45,6 +46,9 @@ export class StvSidePanel extends LitElement {
   private messageListener = (displayData: DisplayData): void => {
     this.displayData = displayData;
   };
+  private chromeInstance: typeof chrome = container.resolve(
+    CHROME_GLOBAL_VARIABLE
+  );
 
   private handleDisplayFromDebug = (ev: DisplayChangeEvent): void => {
     this.displayData = ev.detail || undefined;
@@ -57,9 +61,8 @@ export class StvSidePanel extends LitElement {
       this.messageListener
     );
 
-    // TODO: extract chrome and inject it
     // why do we need this port? --- to see from worker if the sidepanel is opened and closed
-    this.port = chrome.runtime.connect({ name: "sidepanel" });
+    this.port = this.chromeInstance.runtime.connect({ name: "sidepanel" });
   }
 
   public disconnectedCallback(): void {

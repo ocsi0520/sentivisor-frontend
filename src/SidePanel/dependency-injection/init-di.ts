@@ -3,6 +3,7 @@ import { BlackListStorage } from "#shared/black-list-storage/BlackListStorage";
 import { MessageMediator } from "#shared/MessageMediator";
 import { SupervisorStorage } from "#shared/supervisor/SupervisorStorage";
 import {
+  CHROME_GLOBAL_VARIABLE,
   DOCUMENT_SYMBOL,
   LOCAL_STORAGE_SYMBOL,
   WINDOW_SYMBOL,
@@ -12,6 +13,7 @@ import { ConsentStorage } from "#shared/consent/ConsentStorage";
 container.register(LOCAL_STORAGE_SYMBOL, { useValue: localStorage });
 container.register(WINDOW_SYMBOL, { useValue: window });
 container.register(DOCUMENT_SYMBOL, { useValue: document });
+container.register(CHROME_GLOBAL_VARIABLE, { useValue: chrome });
 
 container.register(BlackListStorage, BlackListStorage, {
   lifecycle: Lifecycle.Singleton,
