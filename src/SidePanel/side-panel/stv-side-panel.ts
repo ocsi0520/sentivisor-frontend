@@ -1,11 +1,12 @@
 import { LitElement, html, css, TemplateResult } from "lit";
 import { customElement, state, property } from "lit/decorators.js";
-import type { DisplayData } from "#shared/messages";
+import type { DisplayData, SendEvaluationEvent } from "#shared/messages";
 import { commonStyle, structuralStyles } from "../shared-styles/common.style";
 import type { Theme } from "#shared/theme-colors";
 import type { DisplayChangeEvent } from "../debug-score-seed";
 import { container } from "tsyringe";
 import { MessageMediator, Unsubscribe } from "#shared/MessageMediator";
+import { getActiveTab, isUsualTab } from "#shared/utils";
 import { CHROME_GLOBAL_VARIABLE } from "../dependency-injection/dom-symbols";
 
 const tagName = "stv-side-panel" as const;
@@ -40,36 +41,61 @@ export class StvSidePanel extends LitElement {
   private displayData?: DisplayData;
 
   private messageMediator = container.resolve(MessageMediator);
-  private unsubscribe?: Unsubscribe;
-
-  private port: chrome.runtime.Port | undefined;
-  private messageListener = (displayData: DisplayData): void => {
-    this.displayData = displayData;
-  };
   private chromeInstance: typeof chrome = container.resolve(
     CHROME_GLOBAL_VARIABLE
   );
+  private sendEvaluationUnsubscribe?: Unsubscribe;
+
+  private messageListener = async (
+    evaluationResponse: SendEvaluationEvent["message"]
+  ): Promise<void> => {
+    const activeTab = await getActiveTab(this.chromeInstance.tabs);
+    if (
+      activeTab.id !== evaluationResponse.tabId ||
+      activeTab.windowId !== evaluationResponse.windowId
+    )
+      return;
+
+    this.displayData = evaluationResponse.displayData;
+  };
 
   private handleDisplayFromDebug = (ev: DisplayChangeEvent): void => {
     this.displayData = ev.detail || undefined;
   };
 
-  public connectedCallback(): void {
+  private handleTabChange = async (
+    activeInfo: chrome.tabs.TabActiveInfo
+  ): Promise<void> => {
+    const tab = await this.chromeInstance.tabs.get(activeInfo.tabId);
+    if (isUsualTab(tab))
+      this.messageMediator.send(
+        "getEvaluation",
+        { tabId: tab.id, windowId: tab.windowId },
+        tab.id
+      );
+    else this.displayData = { type: "inner-page" };
+  };
+
+  public async connectedCallback(): Promise<void> {
     super.connectedCallback();
-    this.unsubscribe = this.messageMediator.listen(
-      "display",
+    this.sendEvaluationUnsubscribe = this.messageMediator.listen(
+      "sendEvaluation",
       this.messageListener
     );
+    // Listen for tab switches (when a tab is activated)
+    this.chromeInstance.tabs.onActivated.addListener(this.handleTabChange);
 
-    // why do we need this port? --- to see from worker if the sidepanel is opened and closed
-    this.port = this.chromeInstance.runtime.connect({ name: "sidepanel" });
+    const activeTab = await getActiveTab(this.chromeInstance.tabs);
+    this.handleTabChange({
+      tabId: activeTab.id!,
+      windowId: activeTab.windowId,
+    });
   }
 
   public disconnectedCallback(): void {
+    this.sendEvaluationUnsubscribe?.();
+    this.chromeInstance.tabs.onActivated.removeListener(this.handleTabChange);
     super.disconnectedCallback();
-
-    this.unsubscribe?.();
-    this.port?.disconnect();
   }
 
   public render(): TemplateResult {
