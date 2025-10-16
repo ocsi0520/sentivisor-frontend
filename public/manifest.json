@@ -42,5 +42,5 @@
   "side_panel": {
     "default_path": "src/SidePanel/index.html"
   },
-  "permissions": ["sidePanel", "contextMenus", "storage", "activeTab", "tabs", "scripting"]
+  "permissions": ["sidePanel", "contextMenus", "storage", "activeTab", "tabs"]
 }
