@@ -1,5 +1,9 @@
 import { MessageMediator } from "#shared/MessageMediator";
-import { DisplayableData, ErrorDisplayData } from "#shared/messages";
+import {
+  AnalyzableContent,
+  DisplayableData,
+  ErrorDisplayData,
+} from "#shared/messages";
 import { Analyzer } from "./Analyzer";
 import { injectContentScriptIntoAlreadyOpenedPages } from "./inject-scripts-into-tabs";
 
@@ -43,22 +47,29 @@ chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .catch((error) => console.error(error));
 
-messageMediator.listen("analyze", async (message, _sender, sendResponse) => {
-  let displayData: DisplayableData | ErrorDisplayData;
+const getAnalysis = async (
+  analyzableContent: AnalyzableContent
+): Promise<DisplayableData | ErrorDisplayData> => {
   try {
-    const evaluation = await analyzer.analyze(message);
-    displayData = { type: "displayable", emotionScores: evaluation };
+    const evaluation = await analyzer.analyze(analyzableContent);
+    return { type: "displayable", emotionScores: evaluation };
   } catch (e) {
     const errorMessage = e instanceof Error ? e.message : String(e);
-    displayData = { type: "error", errorMessage };
+    return { type: "error", errorMessage };
   }
-  console.log("the thing that we are going to send back is", displayData);
-  // TODO: this does not work for some reason;
-  console.log("sendResponse", sendResponse);
-  sendResponse(displayData);
+};
+
+// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage#sending_an_asynchronous_response_using_sendresponse
+// no async key on listeners
+messageMediator.listen("analyze", (message, _sender, sendResponse) => {
+  getAnalysis(message).then(sendResponse);
+  return true;
 });
 
-messageMediator.listen("debug", (debugMessage) => {
+messageMediator.listen("debug", (debugMessage, _sender, sendResponse) => {
   console.log("service worker:", debugMessage);
-  messageMediator.send("debug", "I got the message: " + debugMessage);
+  new Promise((resolve) => setTimeout(resolve, 2_000)).then(() =>
+    sendResponse("I got the message: " + debugMessage)
+  );
+  return true;
 });

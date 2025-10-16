@@ -151,8 +151,12 @@ export class DebugScoreSeed extends LitElement {
     `;
   }
 
-  private sendDebugMessage(): void {
-    this.messageMediator.send("debug", this.debugInput.value);
+  private async sendDebugMessage(): Promise<void> {
+    const response = await this.messageMediator.send(
+      "debug",
+      this.debugInput.value
+    );
+    console.log("response from debug-score-seed", response);
   }
 
   protected render(): TemplateResult {

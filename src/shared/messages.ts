@@ -70,7 +70,7 @@ export type TabActivatedEvent = {
 // TODO: remove DebugEvent
 export type DebugEvent = {
   message: string;
-  response: void;
+  response?: string;
 };
 
 export type MessageMap = {
