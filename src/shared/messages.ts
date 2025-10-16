@@ -72,6 +72,11 @@ export type TabActivatedEvent = {
   response: void;
 };
 
+export type GetTabInfoEvent = {
+  message?: never;
+  response: TabInfo;
+};
+
 // TODO: remove DebugEvent
 export type DebugEvent = {
   message: string;
@@ -80,6 +85,7 @@ export type DebugEvent = {
 
 export type MessageMap = {
   act: TabActivatedEvent;
+  getTabInfo: GetTabInfoEvent;
   getEvaluation: GetEvaluationEvent;
   sendEvaluation: SendEvaluationEvent;
   analyze: AnalyzeEvent; // content --> worker

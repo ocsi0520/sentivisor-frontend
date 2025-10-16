@@ -66,6 +66,10 @@ messageMediator.listen("analyze", (message, _sender, sendResponse) => {
   return true;
 });
 
+messageMediator.listen("getTabInfo", (_message, sender, sendResponse) => {
+  sendResponse({ tabId: sender.tab!.id!, windowId: sender.tab!.windowId });
+});
+
 messageMediator.listen("debug", (debugMessage, _sender, sendResponse) => {
   console.log("service worker:", debugMessage);
   new Promise((resolve) => setTimeout(resolve, 2_000)).then(() =>
