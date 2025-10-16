@@ -9,21 +9,7 @@ import { ConsultantProvider } from "./Consultant/ConsultantProvider";
 import { SupervisorProvider } from "./Supervisor/SupervisorProvider";
 import { SupervisionMode } from "#shared/supervisor/supervision-mode";
 import { ConsentStorage } from "#shared/consent/ConsentStorage";
-import { DisplayableData, DisplayData } from "#shared/messages";
-
-declare global {
-  interface Window {
-    __SENTIVISOR_CONTENT_GUARD_FLAG__: boolean;
-  }
-}
-
-function run() {
-  if (window.__SENTIVISOR_CONTENT_GUARD_FLAG__) {
-    console.log("BINGOOOO");
-    return;
-  }
-
-  window.__SENTIVISOR_CONTENT_GUARD_FLAG__ = true;
+import { DisplayableData, DisplayData, TabInfo } from "#shared/messages";
 
   const blackListStorage = new BlackListStorage();
   const supervisorStorage = new SupervisorStorage();
@@ -101,6 +87,3 @@ function run() {
     sentivisor.handleEmotionAnalysis(emotionAnalysis.emotionScores);
   };
   runOnce();
-}
-
-run();
