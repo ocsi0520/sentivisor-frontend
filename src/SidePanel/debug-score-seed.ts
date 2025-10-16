@@ -12,7 +12,7 @@ import { CHROME_GLOBAL_VARIABLE } from "./dependency-injection/dom-symbols";
 
 const tagName = "debug-score-seed" as const;
 
-export type DisplayChangeEvent = CustomEvent<DisplayData | undefined>;
+export type DisplayChangeEvent = CustomEvent<DisplayData>;
 
 @customElement(tagName)
 export class DebugScoreSeed extends LitElement {
@@ -33,7 +33,7 @@ export class DebugScoreSeed extends LitElement {
   );
 
   private clearScores(): void {
-    this.dispatchChangeEventWith(undefined);
+    this.dispatchChangeEventWith({ type: 'loading' });
   }
 
   private randomizeScores(): void {

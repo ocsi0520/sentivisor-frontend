@@ -38,7 +38,7 @@ export class StvSidePanel extends LitElement {
   public theme!: Theme;
 
   @state()
-  private displayData?: DisplayData;
+  private displayData: DisplayData = { type: "loading" };
 
   private messageMediator = container.resolve(MessageMediator);
   private chromeInstance: typeof chrome = container.resolve(
@@ -46,7 +46,7 @@ export class StvSidePanel extends LitElement {
   );
   private sendEvaluationUnsubscribe?: Unsubscribe;
 
-  private messageListener = async (
+  private handleEvaluationResponse = async (
     evaluationResponse: SendEvaluationEvent["message"]
   ): Promise<void> => {
     const activeTab = await getActiveTab(this.chromeInstance.tabs);
@@ -60,27 +60,28 @@ export class StvSidePanel extends LitElement {
   };
 
   private handleDisplayFromDebug = (ev: DisplayChangeEvent): void => {
-    this.displayData = ev.detail || undefined;
+    this.displayData = ev.detail;
   };
 
   private handleTabChange = async (
     activeInfo: chrome.tabs.TabActiveInfo
   ): Promise<void> => {
     const tab = await this.chromeInstance.tabs.get(activeInfo.tabId);
-    if (isUsualTab(tab))
+    if (isUsualTab(tab)) {
+      this.displayData = { type: "loading" };
       this.messageMediator.send(
         "getEvaluation",
         { tabId: tab.id, windowId: tab.windowId },
         tab.id
       );
-    else this.displayData = { type: "inner-page" };
+    } else this.displayData = { type: "inner-page" };
   };
 
   public async connectedCallback(): Promise<void> {
     super.connectedCallback();
     this.sendEvaluationUnsubscribe = this.messageMediator.listen(
       "sendEvaluation",
-      this.messageListener
+      this.handleEvaluationResponse
     );
     // Listen for tab switches (when a tab is activated)
     this.chromeInstance.tabs.onActivated.addListener(this.handleTabChange);

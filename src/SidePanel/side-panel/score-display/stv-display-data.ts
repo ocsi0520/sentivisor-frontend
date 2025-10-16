@@ -23,7 +23,7 @@ export class StvDisplayData extends LitElement {
   ];
 
   @property({ type: Object })
-  public displayData: DisplayData | undefined;
+  public displayData!: DisplayData;
 
   @property({ type: String })
   public theme!: Theme;
@@ -38,7 +38,7 @@ export class StvDisplayData extends LitElement {
   }
 
   private renderDisplayer(): TemplateResult {
-    if (this.displayData === undefined)
+    if (this.displayData.type === 'loading')
       return html`<stv-loading-indicator></stv-loading-indicator>`;
     if (this.displayData.type === "displayable")
       return html`

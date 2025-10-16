@@ -11,6 +11,8 @@ export type TabInfo = { tabId: number; windowId: number };
 
 export type ErrorDisplayData = { type: "error"; errorMessage: string };
 
+export type LoadingDisplayData = { type: "loading" };
+
 export type ExceptionDisplayData =
   | { type: "black-listed" }
   | { type: "off-supervision-mode" }
@@ -23,7 +25,10 @@ export type DisplayableData = {
   emotionScores: EmotionScores;
 };
 
-export type DisplayData = ExceptionDisplayData | DisplayableData;
+export type DisplayData =
+  | LoadingDisplayData
+  | ExceptionDisplayData
+  | DisplayableData;
 
 export type AnalyzableContent = {
   // content --> worker
