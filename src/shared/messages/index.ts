@@ -1,5 +1,5 @@
-import { AllowedLanguage } from "./allowed-languages";
-import { EmotionScores } from "./emotion-scores";
+import { AllowedLanguage } from "../allowed-languages";
+import { EmotionScores } from "../emotion-scores";
 
 export type TabInfo = { tabId: number; windowId: number };
 
