@@ -36,12 +36,8 @@ const isConsentDeclined = async (): Promise<boolean> => {
 let cachedEvaluation: DisplayableData | undefined = undefined;
 // TODO: make getEvaluation cached until it resolves as non-displayable
 const getEvaluation = async (): Promise<DisplayData> => {
-  // TODO: handle this
-  if (await isConsentDeclined()) {
-    console.log("should not parse things");
-    // return
-  }
-
+  if (await isConsentDeclined())
+    return { type: "error", errorMessage: "Consent is not accepted." };
   if (await isSupervisionOff()) return { type: "off-supervision-mode" };
   if (await isCurrentPageBlackListed()) return { type: "black-listed" };
 
