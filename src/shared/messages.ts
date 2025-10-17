@@ -1,12 +1,6 @@
 import { AllowedLanguage } from "./allowed-languages";
 import { EmotionScores } from "./emotion-scores";
 
-export type ParseEvent = {
-  message: undefined;
-  // TODO: return EmotionScores or undefined
-  response: void;
-};
-
 export type TabInfo = { tabId: number; windowId: number };
 
 export type ErrorDisplayData = { type: "error"; errorMessage: string };
