@@ -9,7 +9,14 @@ import { ConsultantProvider } from "./Consultant/ConsultantProvider";
 import { SupervisorProvider } from "./Supervisor/SupervisorProvider";
 import { SupervisionMode } from "#shared/supervisor/supervision-mode";
 import { ConsentStorage } from "#shared/consent/ConsentStorage";
-import { DisplayableData, DisplayData, TabInfo } from "#shared/messages";
+import { DisplayableData, DisplayData } from "#shared/messages/display";
+import { TabInfo } from "#shared/messages/tab";
+
+// - is eligible to parse
+//    - listen for flags (blacklist, consent, supervision mode)
+// - extract visible part from time to time
+//    - scheduling
+//    - extraction
 
 const blackListStorage = new BlackListStorage();
 const supervisorStorage = new SupervisorStorage();

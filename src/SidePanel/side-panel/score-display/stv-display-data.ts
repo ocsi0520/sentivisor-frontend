@@ -3,7 +3,7 @@ import { localized } from "@lit/localize";
 import { customElement, property } from "lit/decorators.js";
 import { commonStyle } from "../../shared-styles/common.style";
 import { Theme } from "#shared/theme-colors";
-import { DisplayData } from "#shared/messages";
+import { DisplayData } from "#shared/messages/display";
 
 const tagName = "stv-display-data" as const;
 

@@ -7,7 +7,7 @@ import { MessageMediator, Unsubscribe } from "#shared/MessageMediator";
 import { BlackListStorage } from "#shared/black-list-storage/BlackListStorage";
 import { getActiveTab } from "#shared/utils";
 import { ConsentStorage } from "#shared/consent/ConsentStorage";
-import { DisplayData } from "#shared/messages";
+import { DisplayData } from "#shared/messages/display";
 import { CHROME_GLOBAL_VARIABLE } from "./dependency-injection/dom-symbols";
 
 const tagName = "debug-score-seed" as const;

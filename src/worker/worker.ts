@@ -1,9 +1,6 @@
 import { MessageMediator } from "#shared/MessageMediator";
-import {
-  AnalyzableContent,
-  DisplayableData,
-  ErrorDisplayData,
-} from "#shared/messages";
+import { AnalyzableContent } from "#shared/messages/analyze";
+import { DisplayableData, ErrorDisplayData } from "#shared/messages/display";
 import { Analyzer } from "./Analyzer";
 import { injectContentScriptIntoAlreadyOpenedPages } from "./inject-scripts-into-tabs";
 

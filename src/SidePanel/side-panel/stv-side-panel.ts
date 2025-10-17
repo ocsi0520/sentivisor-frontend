@@ -1,6 +1,7 @@
 import { LitElement, html, css, TemplateResult } from "lit";
 import { customElement, state, property } from "lit/decorators.js";
-import type { DisplayData, SendEvaluationEvent } from "#shared/messages";
+import type { DisplayData } from "#shared/messages/display";
+import type { SendEvaluationEvent } from "#shared/messages/evaluation";
 import { commonStyle, structuralStyles } from "../shared-styles/common.style";
 import type { Theme } from "#shared/theme-colors";
 import type { DisplayChangeEvent } from "../debug-score-seed";
