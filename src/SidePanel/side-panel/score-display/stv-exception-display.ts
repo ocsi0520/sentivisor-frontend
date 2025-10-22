@@ -2,7 +2,7 @@ import { css, html, LitElement, TemplateResult } from "lit";
 import { localized, msg } from "@lit/localize";
 import { customElement, property } from "lit/decorators.js";
 import { commonStyle } from "../../shared-styles/common.style";
-import { ExceptionDisplayData } from "#shared/messages";
+import { ExceptionDisplayData } from "#shared/messages/display";
 import unsupportedLanguageIcon from "#assets/images/evaluation-exceptions/unsupported-language.svg?no-inline";
 import computerFailIcon from "#assets/images/evaluation-exceptions/computer-fail.svg?no-inline";
 import contractDenyIcon from "#assets/images/evaluation-exceptions/contract-deny.svg?no-inline";

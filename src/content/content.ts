@@ -9,6 +9,19 @@ import { ConsultantProvider } from "./Consultant/ConsultantProvider";
 import { SupervisorProvider } from "./Supervisor/SupervisorProvider";
 import { SupervisionMode } from "#shared/supervisor/supervision-mode";
 import { ConsentStorage } from "#shared/consent/ConsentStorage";
+import { DisplayableData, DisplayData } from "#shared/messages/display";
+import { TabInfo } from "#shared/messages/tab";
+
+
+// TODO: handle consent changes (this is important later on, when we'll check page regularly not just once)
+//        + in case on the first load the consent was declined, then the user accepted it
+//        then the first parse should happen on handling the consent change
+// TODO: structure code
+// - is eligible to parse
+//    - listen for flags (blacklist, consent, supervision mode)
+// - extract visible part from time to time
+//    - scheduling
+//    - content extraction
 
 const blackListStorage = new BlackListStorage();
 const supervisorStorage = new SupervisorStorage();
@@ -32,40 +45,62 @@ const isConsentDeclined = async (): Promise<boolean> => {
   return !(await consentStorage.getConsent());
 };
 
-const parseContent = async () => {
-  if (await isConsentDeclined()) return;
-
-  if (await isSupervisionOff()) {
-    messageMediator.send("display", { type: "off-supervision-mode" });
-    return;
-  }
-  if (await isCurrentPageBlackListed()) {
-    messageMediator.send("display", { type: "black-listed" });
-    return;
-  }
+let cachedEvaluation: DisplayableData | undefined = undefined;
+// TODO: make getEvaluation cached until it resolves as non-displayable
+const getEvaluation = async (): Promise<DisplayData> => {
+  if (await isConsentDeclined())
+    return { type: "error", errorMessage: "Consent is not accepted." };
+  if (await isSupervisionOff()) return { type: "off-supervision-mode" };
+  if (await isCurrentPageBlackListed()) return { type: "black-listed" };
 
   const allTexts: string = document.body.innerText;
   const lang: string = checkLanguage(allTexts);
 
-  if (!isAllowedLanguage(lang)) {
-    messageMediator.send("display", { type: "unsupported-language" });
-    return;
-  }
+  if (!isAllowedLanguage(lang)) return { type: "unsupported-language" };
 
   const url = `${location.origin}${location.pathname}`;
-  messageMediator.send("analyze", { language: lang, text: allTexts, url });
+
+  const emotionAnalysis =
+    cachedEvaluation ||
+    (await messageMediator.send("analyze", {
+      language: lang,
+      text: allTexts,
+      url,
+    }));
+
+  if (emotionAnalysis.type === "displayable")
+    cachedEvaluation = emotionAnalysis;
+
+  return emotionAnalysis!;
 };
-
-messageMediator.listen("display", (emotionAnalysis) => {
-  if (emotionAnalysis.type !== "displayable") return;
-
-  sentivisor.handleEmotionAnalysis(emotionAnalysis.emotionScores);
-});
-
-messageMediator.listen("parse", parseContent);
 
 messageMediator.listen("getPrimaryDomain", (_msg, _sender, sendResponse) => {
   sendResponse(getPrimaryDomain());
 });
 
-parseContent();
+messageMediator.listen("getEvaluation", async (tabInfo) => {
+  messageMediator.send("sendEvaluation", {
+    displayData: await getEvaluation(),
+    ...tabInfo,
+  });
+});
+
+const runOnce = async (): Promise<void> => {
+  const alreadyCalledSentivisor = Boolean(cachedEvaluation);
+  if (alreadyCalledSentivisor) return;
+  const tabInfo: TabInfo = await messageMediator.send("getTabInfo", undefined);
+
+  messageMediator.send("sendEvaluation", {
+    ...tabInfo,
+    displayData: { type: "loading" },
+  });
+  const emotionAnalysis = await getEvaluation();
+  messageMediator.send("sendEvaluation", {
+    ...tabInfo,
+    displayData: emotionAnalysis,
+  });
+
+  if (emotionAnalysis.type !== "displayable") return;
+  sentivisor.handleEmotionAnalysis(emotionAnalysis.emotionScores);
+};
+runOnce();

@@ -4,7 +4,7 @@ type ACallback<EventName extends keyof MessageMap> = (
   message: MessageMap[EventName]["message"],
   sender: chrome.runtime.MessageSender,
   sendResponse: (response?: MessageMap[EventName]["response"]) => void
-) => void;
+) => void | boolean | Promise<unknown>;
 
 type GeneralListener = (
   message: any,
@@ -30,8 +30,11 @@ export class MessageMediator {
       sendResponse
     ) => {
       const parsedMessage: WrappedMessage<EventName> = JSON.parse(message);
+      // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/runtime/onMessage#sendresponse
+      // so we return the value from the callback, because it might be true to indicate
+      // that this is an async event handler (that keeps open sendResponse channel after the callback is executed)
       if (parsedMessage.eventName === eventName)
-        cb(parsedMessage.messageContent, sender, sendResponse);
+        return cb(parsedMessage.messageContent, sender, sendResponse);
     };
     chrome.runtime.onMessage.addListener(cbWithWrappedFilter);
 

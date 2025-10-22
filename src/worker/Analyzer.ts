@@ -1,5 +1,5 @@
 import { EmotionScores } from "#shared/emotion-scores";
-import { AnalyzableContent } from "#shared/messages";
+import { AnalyzableContent } from "#shared/messages/analyze";
 
 export class Analyzer {
   public async analyze({

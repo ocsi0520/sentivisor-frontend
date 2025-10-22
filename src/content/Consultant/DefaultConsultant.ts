@@ -41,7 +41,7 @@ export class DefaultConsultant implements Consultant {
     }
 
     const normalizedScore = totalScore / totalEmotionValue;
-    // TODO: check this min-max
+
     const harmfulnessScore = Math.min(Math.max(normalizedScore, 0), 1);
     return harmfulnessScore;
   }

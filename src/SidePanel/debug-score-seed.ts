@@ -1,17 +1,18 @@
 import { LitElement, html, TemplateResult } from "lit";
-import { customElement, state } from "lit/decorators.js";
+import { customElement, query, state } from "lit/decorators.js";
 import { EmotionScores } from "#shared/emotion-scores";
 import { commonStyle, structuralStyles } from "./shared-styles/common.style";
 import { container } from "tsyringe";
-import { MessageMediator } from "#shared/MessageMediator";
+import { MessageMediator, Unsubscribe } from "#shared/MessageMediator";
 import { BlackListStorage } from "#shared/black-list-storage/BlackListStorage";
 import { getActiveTab } from "#shared/utils";
 import { ConsentStorage } from "#shared/consent/ConsentStorage";
-import { DisplayData } from "#shared/messages";
+import { DisplayData } from "#shared/messages/display";
+import { CHROME_GLOBAL_VARIABLE } from "./dependency-injection/dom-symbols";
 
 const tagName = "debug-score-seed" as const;
 
-export type DisplayChangeEvent = CustomEvent<DisplayData | undefined>;
+export type DisplayChangeEvent = CustomEvent<DisplayData>;
 
 @customElement(tagName)
 export class DebugScoreSeed extends LitElement {
@@ -24,8 +25,15 @@ export class DebugScoreSeed extends LitElement {
   @state()
   private isConsentAccepted?: boolean;
 
+  @query("input", true)
+  private debugInput!: HTMLInputElement;
+
+  private chromeInstance = container.resolve<typeof chrome>(
+    CHROME_GLOBAL_VARIABLE
+  );
+
   private clearScores(): void {
-    this.dispatchChangeEventWith(undefined);
+    this.dispatchChangeEventWith({ type: 'loading' });
   }
 
   private randomizeScores(): void {
@@ -56,10 +64,12 @@ export class DebugScoreSeed extends LitElement {
   }
 
   private async loadScoresForCurrentSite(): Promise<void> {
-    // TODO: parse --> analyze --> display
-    // <-- parse <-- analyze (should return EmotionScores)
-    const activeTab = await getActiveTab();
-    this.messageMediator.send("parse", undefined, activeTab.id);
+    const activeTab = await getActiveTab(this.chromeInstance.tabs);
+    this.messageMediator.send(
+      "getEvaluation",
+      { tabId: activeTab.id!, windowId: activeTab.windowId },
+      activeTab.id
+    );
   }
 
   private async clearBlackList(): Promise<void> {
@@ -72,8 +82,8 @@ export class DebugScoreSeed extends LitElement {
   }
 
   private openConsentPage(): void {
-    chrome.tabs.create({
-      url: chrome.runtime.getURL("src/consent/consent.html"),
+    this.chromeInstance.tabs.create({
+      url: this.chromeInstance.runtime.getURL("src/consent/consent.html"),
     });
   }
 
@@ -141,8 +151,20 @@ export class DebugScoreSeed extends LitElement {
     `;
   }
 
-  public render(): TemplateResult {
+  private async sendDebugMessage(): Promise<void> {
+    const response = await this.messageMediator.send(
+      "debug",
+      this.debugInput.value
+    );
+    console.log("response from debug-score-seed", response);
+  }
+
+  protected render(): TemplateResult {
     return html`
+      <div class="shadow-sm d-flex align-items-center">
+        <button @click=${this.sendDebugMessage}>Send debug message</button>
+        <input />
+      </div>
       <div class="shadow-sm d-flex align-items-center">
         ${this.renderScoreSeeders()} ${this.renderNonParsableSeeders()}
       </div>
@@ -153,6 +175,21 @@ export class DebugScoreSeed extends LitElement {
         ${this.renderConsentDebuggers()}
       </div>
     `;
+  }
+
+  private unsubscribeDebugMessage?: Unsubscribe;
+
+  public connectedCallback(): void {
+    super.connectedCallback();
+    this.unsubscribeDebugMessage = this.messageMediator.listen(
+      "debug",
+      console.log
+    );
+  }
+
+  public disconnectedCallback(): void {
+    this.unsubscribeDebugMessage?.();
+    super.disconnectedCallback();
   }
 }
 

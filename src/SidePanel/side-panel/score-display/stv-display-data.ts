@@ -3,7 +3,7 @@ import { localized } from "@lit/localize";
 import { customElement, property } from "lit/decorators.js";
 import { commonStyle } from "../../shared-styles/common.style";
 import { Theme } from "#shared/theme-colors";
-import { DisplayData } from "#shared/messages";
+import { DisplayData } from "#shared/messages/display";
 
 const tagName = "stv-display-data" as const;
 
@@ -23,7 +23,7 @@ export class StvDisplayData extends LitElement {
   ];
 
   @property({ type: Object })
-  public displayData: DisplayData | undefined;
+  public displayData!: DisplayData;
 
   @property({ type: String })
   public theme!: Theme;
@@ -38,7 +38,7 @@ export class StvDisplayData extends LitElement {
   }
 
   private renderDisplayer(): TemplateResult {
-    if (this.displayData === undefined)
+    if (this.displayData.type === 'loading')
       return html`<stv-loading-indicator></stv-loading-indicator>`;
     if (this.displayData.type === "displayable")
       return html`

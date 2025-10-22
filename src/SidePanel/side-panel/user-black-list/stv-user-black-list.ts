@@ -11,6 +11,7 @@ import { SearchEvent } from "../../shared/search-event";
 import { MessageMediator, Unsubscribe } from "#shared/MessageMediator";
 import { getActiveTab } from "#shared/utils";
 import { getDisposeDispatcher } from "#shared/ui-related/dispose-event";
+import { CHROME_GLOBAL_VARIABLE } from "../../dependency-injection/dom-symbols";
 
 const tagName = "stv-user-black-list" as const;
 
@@ -56,6 +57,10 @@ export class StvUserBlackList extends LitElement {
 
   private blackListService = container.resolve(BlackListStorage);
 
+  private chromeInstance = container.resolve<typeof chrome>(
+    CHROME_GLOBAL_VARIABLE
+  );
+
   @state()
   private userBlackList: Array<string> | undefined;
 
@@ -63,7 +68,7 @@ export class StvUserBlackList extends LitElement {
   private searchTerm: string = "";
   private async addCurrentDomain(): Promise<void> {
     this.userBlackList = undefined;
-    const activeTab = await getActiveTab();
+    const activeTab = await getActiveTab(this.chromeInstance.tabs);
     const primaryDomain = await this.messageMediator.send(
       "getPrimaryDomain",
       undefined,
