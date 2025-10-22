@@ -12,11 +12,16 @@ import { ConsentStorage } from "#shared/consent/ConsentStorage";
 import { DisplayableData, DisplayData } from "#shared/messages/display";
 import { TabInfo } from "#shared/messages/tab";
 
+
+// TODO: handle consent changes (this is important later on, when we'll check page regularly not just once)
+//        + in case on the first load the consent was declined, then the user accepted it
+//        then the first parse should happen on handling the consent change
+// TODO: structure code
 // - is eligible to parse
 //    - listen for flags (blacklist, consent, supervision mode)
 // - extract visible part from time to time
 //    - scheduling
-//    - extraction
+//    - content extraction
 
 const blackListStorage = new BlackListStorage();
 const supervisorStorage = new SupervisorStorage();
