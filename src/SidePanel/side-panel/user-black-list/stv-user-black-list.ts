@@ -45,11 +45,42 @@ export class StvUserBlackList extends LitElement {
         width: 16px;
         height: 16px;
       }
-
-      div[slot="tooltip"] {
-        background-color: lightblue;
-        color: rebeccapurple;
+      div[slot="modal"] {
+        position: relative;
+        padding: 8px 32px 16px 24px;
+        font-size: 14px;
       }
+      div[slot="modal"] li {
+        font-size: 13px;
+        line-height: 1.4em;
+      }
+      div[slot="modal"] ul {
+        flex-direction: column;
+        display: flex;
+        gap: 14px;
+        padding-inline-start: 20px;
+      }
+      div[slot="modal"] .close-button {
+        border: none;
+        background-color: transparent;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+      div[slot="tooltip"] {
+        color: var(--text-color);
+        background-color: var(--background-color);
+        border: 1px solid #888888;
+        border-radius: 10px;
+        padding: 6px;
+        font-size: 13px;
+      }
+      .content{
+        font-size: 13px;
+        line-height: 1.4em;
+      }
+
     `,
   ];
 
@@ -117,12 +148,16 @@ export class StvUserBlackList extends LitElement {
           <div class="w-50 text-end">
             <stv-prompter>
               <div slot="tooltip">
-                <p>These are the domains which we should not evaluate.</p>
+                <p>Websites here are ignored by Sentivisor and not analyzed. Click for full help.</p>
               </div>
-              <div slot="modal">
-                <p>This should be a modal content</p>
-                <button @click=${getDisposeDispatcher()}>Close this</button>
-              </div>
+              <div slot="modal" class="text-start">
+              <h2>Ignored domains</h2>
+                <p>This list contains <strong>website domains</strong> that <strong>Sentivisor will ignore</strong>. Ignored sites are <em>not read</em> or sent to the server for analysis.</p>
+                <p class="content">Use the <button type="button">Add current domain</button> button to add the domain of the website you are visiting. It will appear in the list immediately.</p>
+                <p class="content">You can <strong>filter the list</strong> by typing any part of a domain name. Domains containing your text will be shown, making it easier to find a site even if you don’t remember the full name.</p>
+                <p class="content">Click the <span style="color:red; font-weight:bold;">X</span> next to a domain to remove it from the list. Sentivisor will then handle that site according to your supervision mode settings.</p>
+              <button class="close-button" @click=${getDisposeDispatcher()}>X</button>
+            </div>
             </stv-prompter>
           </div>
         </div>
