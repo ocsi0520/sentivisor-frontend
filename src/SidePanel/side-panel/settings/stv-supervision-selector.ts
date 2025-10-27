@@ -52,7 +52,7 @@ export class StvSupervisionSelector extends LitElement {
       }
 
       p {
-        padding-left: 10px;
+        
         color: var(--text-color);
       }
 
@@ -76,17 +76,40 @@ export class StvSupervisionSelector extends LitElement {
         background: var(--text-color);
         cursor: pointer;
       }
-
       div[slot="tooltip"],
       div[slot="modal"] {
-        text-align: center;
         color: var(--text-color);
       }
-
+      div[slot="modal"] {
+        position: relative;
+        padding: 8px 32px 16px 24px;
+        font-size: 14px;
+      }
+      div[slot="modal"] li {
+        font-size: 13px;
+        line-height: 1.4em;
+      }
+      div[slot="modal"] ul {
+        flex-direction: column;
+        display: flex;
+        gap: 14px;
+        padding-inline-start: 20px;
+      }
+      div[slot="modal"] button {
+        border: none;
+        background-color: transparent;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
       div[slot="tooltip"] {
         color: var(--text-color);
         background-color: var(--background-color);
-        border: 1px solid var(--text-color);
+        border: 1px solid #888888;
+        border-radius: 10px;
+        padding: 6px;
+        font-size: 13px;
       }
     `,
   ];
@@ -117,10 +140,21 @@ export class StvSupervisionSelector extends LitElement {
         </div>
         <div class="w-50 text-end">
           <stv-prompter>
-            <div slot="tooltip">Hello From the <strong>other</strong> side</div>
-            <div slot="modal">
-              <p>This should be a modal content</p>
-              <button @click=${getDisposeDispatcher()}>Close this</button>
+            <div slot="tooltip">
+              <p>Controls how Sentivisor interacts with page content. 
+              Choose a mode to see, warn, or block content. Click for full help.</p>
+            </div>
+            <div slot="modal" class="text-start">
+              <h2>Supervision modes</h2>
+              <p>The slider controls how Sentivisor interacts with web content. The settings are:</p>
+              <ul>
+                <li><strong>Off:</strong> The extension is completely passive; it does nothing to the web page content.</li>
+                <li><strong>Collect:</strong> Analyzes the displayed content and shows sentiment scores in the side panel chart.</li>
+                <li><strong>Inform:</strong> Discreetly shows an emoji on the page indicating the main emotional tone of the content.</li>
+                <li><strong>Warning:</strong> Covers the content with a warning message; you decide whether to view the page.</li>
+                <li><strong>Strict:</strong> Blocks the content completely if it is deemed harmful to mental health.</li>
+              </ul>
+              <button @click=${getDisposeDispatcher()}>X</button>
             </div>
           </stv-prompter>
         </div>

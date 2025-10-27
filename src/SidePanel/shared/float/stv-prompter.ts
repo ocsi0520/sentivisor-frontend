@@ -26,12 +26,15 @@ export class StvPrompter extends LitElement {
         justify-content: center;
         align-items: center;
         background-color: rgba(0, 0, 0, 0.6);
+        cursor: pointer;
       }
       .modal-wrapper {
         min-height: 100px;
         width: 90vw;
-        border: 2px solid red;
-      }
+        border-radius: 10px;
+        background-color: var(--background-color);
+        cursor: default;
+      }      
       .tooltip {
         visibility: hidden;
         position: absolute;
@@ -96,11 +99,18 @@ export class StvPrompter extends LitElement {
     this.tooltip.style.visibility = "hidden";
   }
 
-  private renderModal(): TemplateResult | typeof nothing {
+  private dismissModalOnBackgroundClick(ev: MouseEvent): void {
+    const isDirectClick =
+      ev.target &&
+      (ev.target as HTMLElement).classList.contains("modal-background");
+    if (isDirectClick) this.toggleModal(ev);
+  }
+
+    private renderModal(): TemplateResult | typeof nothing {
     if (!this.isModalOpen) return nothing;
 
     return html`
-      <div class="modal-background">
+      <div class="modal-background" @click="${this.dismissModalOnBackgroundClick}" >
         <div class="modal-wrapper">
           <slot @dispose=${this.toggleModal} name="modal"></slot>
         </div>
